@@ -12,6 +12,7 @@ import com.springcommerceapi.SpringCommerceAPI.model.Cliente;
 public interface ClienteRepository extends CrudRepository<Cliente, Long>{
 	
 	Optional<Cliente> findById(Long id);
+	public Cliente findByNomeIgnoreCase(String nome);
 	
 	
 }

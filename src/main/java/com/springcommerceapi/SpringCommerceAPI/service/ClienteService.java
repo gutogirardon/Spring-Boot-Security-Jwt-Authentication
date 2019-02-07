@@ -22,12 +22,19 @@ public class ClienteService {
 		clienteRepository.save(cliente);
 	}
 	
-	public Cliente alterarCliente(Long id, Cliente cliente) {
-		Cliente cliente1 = clienteRepository.findById(id).orElse(new Cliente());
+	public Cliente alterarCliente(Cliente cliente) {
+		Cliente cliente1 = clienteRepository.findById(cliente.getId()).orElse(new Cliente());
 		cliente.setId(cliente1.getId());
-		clienteRepository.save(cliente);
-		
+		clienteRepository.save(cliente);		
 		return null;	
+	}
+	
+	public Cliente recuperarClienteNome(String nome) {
+		return clienteRepository.findByNomeIgnoreCase(nome);
+	}
+
+	public Cliente recuperarClienteId(Long id) {
+		return clienteRepository.findById(id).orElse(new Cliente());
 	}
 	
 }
