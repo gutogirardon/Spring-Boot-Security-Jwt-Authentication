@@ -56,12 +56,12 @@ public class ClienteResource {
 		return null;
 	}
 	
-	@GetMapping("/buscar/")
-	@ResponseBody
-	public Cliente recuperarClienteNome(@RequestParam(value="nome")String nome) {
-		return clienteService.recuperarClienteNome(nome);
-
-	}
+//	@GetMapping("/buscar/")
+//	@ResponseBody
+//	public Cliente recuperarClienteNome(@RequestParam(value="nome")String nome) {
+//		return clienteService.recuperarClienteNome(nome);
+//
+//	}
 
 	@GetMapping("/buscar/{id}")
 	@ResponseBody

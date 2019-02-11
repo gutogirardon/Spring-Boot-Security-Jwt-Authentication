@@ -29,9 +29,9 @@ public class ClienteService {
 		return null;	
 	}
 	
-	public Cliente recuperarClienteNome(String nome) {
-		return clienteRepository.findByNomeIgnoreCase(nome);
-	}
+//	public Cliente recuperarClienteNome(String nome) {
+//		return clienteRepository.findByNomeIgnoreCase(nome);
+//	}
 
 	public Cliente recuperarClienteId(Long id) {
 		return clienteRepository.findById(id).orElse(new Cliente());

@@ -1,7 +1,7 @@
 package com.springcommerceapi.SpringCommerceAPI.service;
 
 import com.springcommerceapi.SpringCommerceAPI.model.Produto;
-import com.springcommerceapi.SpringCommerceAPI.repository.IProdutoRepository;
+import com.springcommerceapi.SpringCommerceAPI.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ProdutoService {
 
 	@Autowired
-	IProdutoRepository iProdutoRepository;
+	ProdutoRepository iProdutoRepository;
 
-	public ProdutoService(IProdutoRepository iProdutoRepository) {
+	public ProdutoService(ProdutoRepository iProdutoRepository) {
 		this.iProdutoRepository = iProdutoRepository;
 	}
 
@@ -39,10 +39,10 @@ public class ProdutoService {
        }
 	}
 
-	public Produto buscarProdutoNome(@RequestParam(value="nome") String nome){
-        Produto produto = iProdutoRepository.findByNome(nome);
-	    return produto;
-    }
+//	public Produto buscarProdutoNome(@RequestParam(value="nome") String nome){
+//        Produto produto = iProdutoRepository.findByNome(nome);
+//	    return produto;
+//    }
 
     public Produto alterarProduto(Produto produto){
 		Produto produto1 = iProdutoRepository.findById(produto.getId()).orElse(new Produto());

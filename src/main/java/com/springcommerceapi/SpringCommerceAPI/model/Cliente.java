@@ -1,11 +1,14 @@
 package com.springcommerceapi.SpringCommerceAPI.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -14,35 +17,22 @@ public class Cliente {
 	
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Long id;
-	
+	private Long id;	
 	private String nome;
-
 	private String sobrenome;
-
 	private Date dataNascimento;
-
 	private Long telefone;
-
 	private Long cpf;
-
 	private String sexo;
-
 	private Date dataRegistro;
-
 	private String endereco;
-
 	private String numero;
-
 	private String bairro;
-
 	private int cep;
-
 	private String complemento;
 	
 	public Cliente(Long id, String nome, String sobrenome, Date dataNascimento, Long telefone, Long cpf, String sexo,
 			Date dataRegistro, String endereco, String numero, String bairro, int cep, String complemento) {
-				
 		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
@@ -61,7 +51,9 @@ public class Cliente {
 	public Cliente() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
+    private List<Pedido> pedidos;
 
 	public Long getId() {
 		return id;
@@ -166,6 +158,22 @@ public class Cliente {
 
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
+	}
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
+
+	@Override
+	public String toString() {
+		return "Cliente [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", dataNascimento="
+				+ dataNascimento + ", telefone=" + telefone + ", cpf=" + cpf + ", sexo=" + sexo + ", dataRegistro="
+				+ dataRegistro + ", endereco=" + endereco + ", numero=" + numero + ", bairro=" + bairro + ", cep=" + cep
+				+ ", complemento=" + complemento + ", pedidos=" + pedidos + "]";
 	}
 	
 }

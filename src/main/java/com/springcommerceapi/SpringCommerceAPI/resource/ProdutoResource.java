@@ -39,12 +39,12 @@ public class ProdutoResource {
 	            
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	@GetMapping(value = "/buscarproduto/", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public Produto buscarProdutoNome(@RequestParam(value="nome") String nome){
-		return produtoService.buscarProdutoNome(nome);
-	}
+//	@PreAuthorize("hasAnyRole('ADMIN','USER')")
+//	@GetMapping(value = "/buscarproduto/", produces = MediaType.APPLICATION_JSON_VALUE)
+//	@ResponseBody
+//	public Produto buscarProdutoNome(@RequestParam(value="nome") String nome){
+//		return produtoService.buscarProdutoNome(nome);
+//	}
 
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@RequestMapping(value = "/alterarproduto/", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)

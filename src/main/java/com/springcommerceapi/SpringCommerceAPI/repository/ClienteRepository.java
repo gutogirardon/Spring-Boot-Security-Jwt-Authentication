@@ -4,15 +4,13 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
 import com.springcommerceapi.SpringCommerceAPI.model.Cliente;
 
-@Transactional
-public interface ClienteRepository extends CrudRepository<Cliente, Long>{
-	
-	Optional<Cliente> findById(Long id);
-	public Cliente findByNomeIgnoreCase(String nome);
-	
-	
+public interface ClienteRepository extends JpaRepository<Cliente, Long> {
+
+    Cliente findByNome(String nome);
+
 }

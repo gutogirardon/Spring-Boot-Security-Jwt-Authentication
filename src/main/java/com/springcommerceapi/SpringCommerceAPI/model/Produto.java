@@ -1,5 +1,7 @@
 package com.springcommerceapi.SpringCommerceAPI.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,13 +11,9 @@ public class Produto {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
-
 	private String nome;
-
 	private String descricao;
-
 	private double valor;
-
 	private int quantidade;
 
 	public Produto(String nome, String descricao, double valor, int quantidade) {
@@ -28,6 +26,9 @@ public class Produto {
 	public Produto(){
 
 	}
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "produto")
+    private List<ItemPedido> itensPedido;
 
 	public Long getId() {
 		return id;
@@ -78,5 +79,13 @@ public class Produto {
 				", valor=" + valor +
 				", quantidade=" + quantidade +
 				'}';
+	}
+
+	public List<ItemPedido> getItensPedido() {
+		return itensPedido;
+	}
+
+	public void setItensPedido(List<ItemPedido> itensPedido) {
+		this.itensPedido = itensPedido;
 	}
 }
