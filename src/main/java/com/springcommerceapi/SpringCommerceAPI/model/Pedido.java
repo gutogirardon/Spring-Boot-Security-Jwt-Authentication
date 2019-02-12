@@ -78,10 +78,6 @@ public class Pedido {
         produto.setItensPedido(itensPedidosProduto);
 
         this.setValor_total(itemPedido.getPreco_total());
-        //Criar o metodo que salva a saida la no estoque
-//        Estoque estoque = new Estoque(2, produto.getQuantidade(), produto);
-//        EstoqueRepository estoqueRepository = null;
-//        estoqueRepository.save(estoque);
     }
 
 	public Long getId() {

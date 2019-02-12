@@ -21,7 +21,7 @@ public class ProdutoResource {
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@PostMapping(value = "/cadastrar", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String cadastraProduto(@RequestBody Produto produto){
-		produtoService.salvarProduto(produto, 1);
+		produtoService.salvarProduto(produto, 1, produto.getQuantidade());
 		return "Produto Salvo";
 	}
 

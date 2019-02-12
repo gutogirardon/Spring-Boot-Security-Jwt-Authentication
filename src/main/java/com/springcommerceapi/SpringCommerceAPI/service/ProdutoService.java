@@ -24,7 +24,7 @@ public class ProdutoService {
 	}
 
 	//metodo para inserir no estoque quando o produto é adicionado	
-	public void salvarProduto(Produto produto, int status){
+	public void salvarProduto(Produto produto, int status, int quantidade){
 		Estoque estoque = new Estoque(status, produto.getQuantidade(), produto);
 		iProdutoRepository.save(produto);
 		estoqueRepository.save(estoque);

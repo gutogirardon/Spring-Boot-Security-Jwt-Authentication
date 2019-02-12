@@ -46,7 +46,7 @@ public class PedidoResource {
         pedido.comprar(produto, quantidade);
 
         pedidoRepository.save(pedido);
-        produtoService.salvarProduto(produto, 2);
+        produtoService.salvarProduto(produto, 2, produto.getQuantidade());
 
         return "Sucesso na compra do produto: " + produto.getNome() + "\n";
     }
