@@ -14,6 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.springcommerceapi.SpringCommerceAPI.exception.ExceptionQuantidade;
+import com.springcommerceapi.SpringCommerceAPI.repository.EstoqueRepository;
+import com.springcommerceapi.SpringCommerceAPI.service.ProdutoService;
+
 @Entity
 @Table(name = "pedido")
 public class Pedido {
@@ -31,6 +37,7 @@ public class Pedido {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido")
     private List<ItemPedido> itensPedido;
+    
 	
     Pedido() {
         // default constructor
@@ -44,7 +51,14 @@ public class Pedido {
     public void comprar(Produto produto, Integer quantidade) {
         ItemPedido itemPedido = new ItemPedido();
         itemPedido.setPreco_unitario(produto.getValor());
-        itemPedido.setQuantidade(quantidade);
+        //tem que calcular se é menor ou igual a quantidade do produto
+        //itemPedido.setQuantidade(quantidade);
+        if (quantidade <= produto.getQuantidade() && quantidade > 0) {
+        	itemPedido.setQuantidade(quantidade);
+        	produto.setQuantidade(produto.getQuantidade() - quantidade);
+		} else {
+			throw new ExceptionQuantidade();
+		}
         itemPedido.setPreco_total(produto.getValor() * quantidade);
         itemPedido.setProduto(produto);
         itemPedido.setPedido(this);
@@ -67,6 +81,10 @@ public class Pedido {
         produto.setItensPedido(itensPedidosProduto);
 
         this.setValor_total(itemPedido.getPreco_total());
+        //Criar o metodo que salva a saida la no estoque
+//        Estoque estoque = new Estoque(2, produto.getQuantidade(), produto);
+//        EstoqueRepository estoqueRepository = null;
+//        estoqueRepository.save(estoque);
     }
 
 	public Long getId() {
@@ -119,7 +137,8 @@ public class Pedido {
 
 	@Override
 	public String toString() {
-		return "Pedido [id=" + id + ", valor_total=" + valor_total + ", status=" + status + ", itensPedido="
-				+ itensPedido + "]";
+		return "Pedido [id=" + id + ", data_pedido=" + data_pedido + ", valor_total=" + valor_total + ", status="
+				+ status + ", itensPedido=" + itensPedido + "]";
 	}
+	
 }
