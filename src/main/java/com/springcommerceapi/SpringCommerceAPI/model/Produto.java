@@ -72,13 +72,11 @@ public class Produto {
 
 	@Override
 	public String toString() {
-		return "Produto{" +
-				"id=" + id +
-				", nome='" + nome + '\'' +
+		return "Produto " +
+				"id=" + id +", nome='" + nome + '\'' +
 				", descricao='" + descricao + '\'' +
 				", valor=" + valor +
-				", quantidade=" + quantidade +
-				'}';
+				", quantidade=" + quantidade;
 	}
 
 	public List<ItemPedido> getItensPedido() {

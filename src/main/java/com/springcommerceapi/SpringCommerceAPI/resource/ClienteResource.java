@@ -1,5 +1,8 @@
 package com.springcommerceapi.SpringCommerceAPI.resource;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,9 @@ public class ClienteResource {
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@PostMapping(value =  "/cadastrarcliente",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public String cadastrarCliente(@RequestBody Cliente cliente) {
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = new Date();
+		cliente.setDataRegistro(dateFormat.format(date));
 		clienteService.salvarCliente(cliente);
 		return "Cliente Cadastrado";
 	}

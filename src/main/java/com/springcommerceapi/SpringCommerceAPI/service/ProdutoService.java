@@ -23,12 +23,13 @@ public class ProdutoService {
 		this.estoqueRepository = estoqueRepository;
 	}
 
+	//metodo para inserir no estoque quando o produto é adicionado	
 	public void salvarProduto(Produto produto, int status){
 		Estoque estoque = new Estoque(status, produto.getQuantidade(), produto);
 		iProdutoRepository.save(produto);
 		estoqueRepository.save(estoque);
 	}
-
+	
 	public String deletarProduto(Long id){
 	     Produto produto = iProdutoRepository.findById(id).orElse(new Produto());
 	     if(produto.getId() == null){

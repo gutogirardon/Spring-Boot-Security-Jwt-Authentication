@@ -1,7 +1,5 @@
 package com.springcommerceapi.SpringCommerceAPI.resource;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springcommerceapi.SpringCommerceAPI.model.Cliente;
@@ -18,6 +17,7 @@ import com.springcommerceapi.SpringCommerceAPI.model.Produto;
 import com.springcommerceapi.SpringCommerceAPI.repository.ClienteRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.PedidoRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.ProdutoRepository;
+import com.springcommerceapi.SpringCommerceAPI.service.ProdutoService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -33,8 +33,11 @@ public class PedidoResource {
     @Autowired
     private PedidoRepository pedidoRepository;
     
+    @Autowired
+	ProdutoService produtoService;
+    
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-	@PostMapping(value =  "/comprar/{idCliente}/{idProduto}/{quantidade}",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value =  "/comprar/{idCliente}/{idProduto}/{quantidade}")
     public String comprar(@PathVariable Long idCliente, @PathVariable Long idProduto, @PathVariable Integer quantidade) {
         Cliente cliente = clienteRepository.findById(idCliente).orElse(null);
         Produto produto = produtoRepository.findById(idProduto).orElse(null);
@@ -43,16 +46,21 @@ public class PedidoResource {
         pedido.comprar(produto, quantidade);
 
         pedidoRepository.save(pedido);
+        produtoService.salvarProduto(produto, 2);
 
         return "Sucesso na compra do produto: " + produto.getNome() + "\n";
     }
     
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @RequestMapping(value = "/compras/{idCliente}", method = RequestMethod.GET)
+    @RequestMapping(value = "/compras/{idCliente}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public String comprar(@PathVariable Long idCliente) {
         System.out.println("Nome do cliente: "+idCliente);
         Cliente cliente = clienteRepository.findById(idCliente).orElse(null);
-        return cliente + "\n";
+        //return 	"Nome completo: " + cliente.getNome() + " " + cliente.getSobrenome() + " CPF: " +
+        		//cliente.getCpf() + "\n" +
+        		//cliente.getPedidos() + "\n";        		      
+        return cliente.getPedidos() + "";
     }
     
     

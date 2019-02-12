@@ -1,5 +1,7 @@
 package com.springcommerceapi.SpringCommerceAPI.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Entity
 @Table (name = "cliente")
@@ -24,7 +28,7 @@ public class Cliente {
 	private Long telefone;
 	private Long cpf;
 	private String sexo;
-	private Date dataRegistro;
+	private String dataRegistro;
 	private String endereco;
 	private String numero;
 	private String bairro;
@@ -32,7 +36,7 @@ public class Cliente {
 	private String complemento;
 	
 	public Cliente(Long id, String nome, String sobrenome, Date dataNascimento, Long telefone, Long cpf, String sexo,
-			Date dataRegistro, String endereco, String numero, String bairro, int cep, String complemento) {
+			String dataRegistro, String endereco, String numero, String bairro, int cep, String complemento) {
 		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
@@ -112,11 +116,11 @@ public class Cliente {
 		this.sexo = sexo;
 	}
 
-	public Date getDataRegistro() {
+	public String getDataRegistro() {
 		return dataRegistro;
 	}
 
-	public void setDataRegistro(Date dataRegistro) {
+	public void setDataRegistro(String dataRegistro) {
 		this.dataRegistro = dataRegistro;
 	}
 
@@ -159,7 +163,7 @@ public class Cliente {
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}
-
+	
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
@@ -170,10 +174,10 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", dataNascimento="
+		return "Cliente id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", dataNascimento="
 				+ dataNascimento + ", telefone=" + telefone + ", cpf=" + cpf + ", sexo=" + sexo + ", dataRegistro="
 				+ dataRegistro + ", endereco=" + endereco + ", numero=" + numero + ", bairro=" + bairro + ", cep=" + cep
-				+ ", complemento=" + complemento + ", pedidos=" + pedidos + "]";
+				+ ", complemento=" + complemento + ", pedidos=" + pedidos + "\n";
 	}
 	
 }

@@ -35,9 +35,7 @@ public class ItemPedido {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	
+	}	
 
 	public Integer getQuantidade() {
 		return quantidade;
@@ -81,8 +79,8 @@ public class ItemPedido {
 
 	@Override
 	public String toString() {
-		return "ItemPedido [id=" + id + ", preco_unitario=" + preco_unitario + ", quantidade=" + quantidade
-				+ ", preco_total=" + preco_total + ", produto=" + produto + "]";
+		return "Produto id: " + id + ", Nome: " + produto.getNome() + ", Descrição: " + produto.getDescricao() + ", Preco Unitario: " + preco_unitario + ", Qtde: " + quantidade
+				+ ", Valor Total: " + preco_total + "\n";
 	}
 
 	

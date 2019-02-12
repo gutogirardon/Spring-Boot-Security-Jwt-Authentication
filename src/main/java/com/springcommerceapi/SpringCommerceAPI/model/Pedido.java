@@ -13,12 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.springcommerceapi.SpringCommerceAPI.exception.ExceptionQuantidade;
-import com.springcommerceapi.SpringCommerceAPI.repository.EstoqueRepository;
-import com.springcommerceapi.SpringCommerceAPI.service.ProdutoService;
+
 
 @Entity
 @Table(name = "pedido")
@@ -137,8 +136,8 @@ public class Pedido {
 
 	@Override
 	public String toString() {
-		return "Pedido [id=" + id + ", data_pedido=" + data_pedido + ", valor_total=" + valor_total + ", status="
-				+ status + ", itensPedido=" + itensPedido + "]";
+		return "\nPedido: " + id + ", Data: " + data_pedido + ", Valor Total: " + valor_total + ", Status: "
+				+ status + " Lista dos itens: " + itensPedido;
 	}
 	
 }
