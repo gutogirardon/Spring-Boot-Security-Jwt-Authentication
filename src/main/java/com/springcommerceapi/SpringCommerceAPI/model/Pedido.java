@@ -16,8 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.springcommerceapi.SpringCommerceAPI.exception.ExceptionQuantidade;
-
 
 @Entity
 @Table(name = "pedido")
@@ -56,7 +54,7 @@ public class Pedido {
         	itemPedido.setQuantidade(quantidade);
         	produto.setQuantidade(produto.getQuantidade() - quantidade);
 		} else {
-			throw new ExceptionQuantidade();
+			throw new IllegalArgumentException();
 		}
         itemPedido.setPreco_total(produto.getValor() * quantidade);
         itemPedido.setProduto(produto);
