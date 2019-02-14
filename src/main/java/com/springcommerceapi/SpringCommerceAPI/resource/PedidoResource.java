@@ -43,4 +43,13 @@ public class PedidoResource {
         itemPedidoService.salvarItens(idPedido, itemPedido);
         return itemPedido;
     }
+
+    //implementar método que retorna os pedidos por cliente
+    /*@PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @GetMapping(value = "/{idCliente}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Pedido> buscarPedidos(@PathVariable Long idCliente) {
+
+        return pedidos;
+    }*/
 }

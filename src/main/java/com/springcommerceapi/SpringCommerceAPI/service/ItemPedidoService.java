@@ -1,8 +1,10 @@
 package com.springcommerceapi.SpringCommerceAPI.service;
 
+import com.springcommerceapi.SpringCommerceAPI.model.Estoque;
 import com.springcommerceapi.SpringCommerceAPI.model.ItemPedido;
 import com.springcommerceapi.SpringCommerceAPI.model.Pedido;
 import com.springcommerceapi.SpringCommerceAPI.model.Produto;
+import com.springcommerceapi.SpringCommerceAPI.repository.EstoqueRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.ItemPedidoRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.PedidoRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.ProdutoRepository;
@@ -21,6 +23,9 @@ public class ItemPedidoService {
 	ProdutoRepository produtoRepository;
 
 	@Autowired
+	EstoqueRepository estoqueRepository;
+
+	@Autowired
 	PedidoRepository pedidoRepository;
 
 	public void salvarItens(Long idPedido, List<ItemPedido> item) {
@@ -34,8 +39,11 @@ public class ItemPedidoService {
 				itemPedido.setPedido(pedido);
 				itemPedido.setProduto(produto);
 				pedido.setValor_total(pedido.getValor_total() + itemPedido.getPreco_total());
+				atualizarEstoqueSaida(itemPedido, produto);
 				pedidoRepository.save(pedido);
 				itemPedidoRepository.save(itemPedido);
+			} else {
+				//implementar o que acontece caso não tenha a quantidade do produto
 			}
 		}
 	}
@@ -48,7 +56,8 @@ public class ItemPedidoService {
 		return false;
 	}
 
-	public void atualizarEstoqueSaida() {
-
+	public void atualizarEstoqueSaida(ItemPedido itemPedido, Produto produto) {
+		Estoque estoque = new Estoque(2, itemPedido.getQuantidade(), produto);
+		estoqueRepository.save(estoque);
 	}
 }
