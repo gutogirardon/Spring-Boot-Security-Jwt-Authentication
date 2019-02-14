@@ -26,12 +26,11 @@ public class ProdutoResource {
 
 	@Autowired
 	ProdutoRepository produtoRepository;
-	
-		// cadastrar produto
+
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@PostMapping(value = "/cadastrar", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Produto cadastraProduto(@RequestBody Produto produto) {
-		produtoService.salvarProduto(produto, 1, produto.getQuantidade());
+	public Produto cadastraProduto(@RequestBody Produto produto){
+		produtoService.salvarProduto(produto, 1);
 		return produto;
 	}
 
@@ -49,12 +48,13 @@ public class ProdutoResource {
 		return produtoRepository.findAll();
 	}
 
-	// Atualizar produto passando tudo pelo body
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	@RequestMapping(value = "/atualizarProduto", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Produto atualizarProduto(@RequestBody Produto produto) {
+	@RequestMapping(value = "/alterarproduto/", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Produto atualizarProduto (@RequestBody Produto produto){
 		produtoService.alterarProduto(produto);
 		return produto;
+
+
 	}
 
 	// Deletar o produto passando o id

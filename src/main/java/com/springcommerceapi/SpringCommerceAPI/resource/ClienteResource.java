@@ -38,7 +38,7 @@ public class ClienteResource {
 	ClienteRepository clienteRepository;
 
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	@PostMapping(value = "/cadastrarcliente", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value =  "/cadastrarcliente",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public Cliente cadastrarCliente(@RequestBody Cliente cliente) {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
@@ -61,10 +61,9 @@ public class ClienteResource {
 		return clienteRepository.findAll();
 	}
 
-	// Atualizar cliente passando tudo pelo body
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@RequestMapping(value = "/atualizarcliente", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Cliente atualizarCliente(@RequestBody Cliente cliente) {
+	public Cliente atualizarCliente(@RequestBody Cliente cliente){
 		clienteService.alterarCliente(cliente);
 		return cliente;
 	}

@@ -1,10 +1,8 @@
 package com.springcommerceapi.SpringCommerceAPI.service;
 
 import com.springcommerceapi.SpringCommerceAPI.model.Cliente;
-import com.springcommerceapi.SpringCommerceAPI.model.ItemPedido;
 import com.springcommerceapi.SpringCommerceAPI.model.Pedido;
 import com.springcommerceapi.SpringCommerceAPI.repository.ClienteRepository;
-import com.springcommerceapi.SpringCommerceAPI.repository.ItemPedidoRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +22,9 @@ public class PedidoService {
 	@Autowired
 	ClienteRepository clienteRepository;
 
+	@Autowired
+	ItemPedidoService itemPedidoService;
+
 	public PedidoService(PedidoRepository pedidoRepository) {
 		this.pedidoRepository = pedidoRepository;
 	}
@@ -32,6 +33,16 @@ public class PedidoService {
 		Cliente cliente = clienteRepository.findById(idCliente).orElse(null);
 		Pedido pedido = new Pedido(cliente);
 		pedidoRepository.save(pedido);
+		return pedido;
+	}
+
+	public Pedido alterarPedido(Long idPedido) {
+		Pedido pedido = pedidoRepository.findById(idPedido).orElse(null);
+		if(pedidoRepository.existsById(pedido.getId())) {
+			pedido.setStatus(2);
+			itemPedidoService.atualizarEstoqueEntrada(pedido);
+			pedidoRepository.save(pedido);
+		}
 		return pedido;
 	}
 
@@ -62,5 +73,24 @@ public class PedidoService {
 		}
 		return relatorioPedidos;
 	}
-	
+
+	public List<Pedido> relatorioPedidoCliente(Long idCliente){
+
+		List<Pedido> pedidos = pedidoRepository.findAll();
+
+		List<Pedido> pedidosPorCliente = new ArrayList<>();
+
+		for (Pedido pedido : pedidos) {
+			if (pedido.getCliente().getId() == idCliente){
+				pedidosPorCliente.add(pedido);
+			}
+		}
+
+		return pedidosPorCliente;
+	}
+
+	public Pedido buscarPedido(Long idPedido) {
+		Pedido pedido = pedidoRepository.findById(idPedido).orElse(null);
+		return pedido;
+	}
 }

@@ -11,6 +11,7 @@ import com.springcommerceapi.SpringCommerceAPI.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -60,4 +61,15 @@ public class ItemPedidoService {
 		Estoque estoque = new Estoque(2, itemPedido.getQuantidade(), produto);
 		estoqueRepository.save(estoque);
 	}
+
+	public void atualizarEstoqueEntrada(Pedido pedido) {
+		ArrayList<ItemPedido> item = (ArrayList<ItemPedido>) pedido.getItensPedido();
+		for (ItemPedido itemPedido : item) {
+			Produto produto = produtoRepository.findById(itemPedido.getProduto().getId()).orElse(null);
+				produto.setQuantidade(produto.getQuantidade() + itemPedido.getQuantidade());
+				Estoque estoque = new Estoque(1, itemPedido.getQuantidade(), produto);
+				produtoRepository.save(produto);
+				estoqueRepository.save(estoque);
+			}
+		}
 }

@@ -43,15 +43,25 @@ public class PedidoResource {
     @ResponseBody
     public String relatorioPedidos(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
         return pedidoService.relatorio(dataInicio, dataFinal) + "";
-
     }
 
-    //implementar método que retorna os pedidos por cliente
-    /*@PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @GetMapping(value = "/{idCliente}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<Pedido> buscarPedidos(@PathVariable Long idCliente) {
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @RequestMapping(value = "/cancelarPedido/{idPedido}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Pedido cancelarPedido(@PathVariable Long idPedido) {
+        return pedidoService.alterarPedido(idPedido);
+    }
 
-        return pedidos;
-    }*/
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @GetMapping("/relatorio/{idCliente}")
+    @ResponseBody
+    public String relatorioPedidos(@PathVariable Long idCliente) throws ParseException {
+        return pedidoService.relatorioPedidoCliente(idCliente) + "";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @GetMapping(value = "/buscar/{idPedido}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Pedido buscarPedido(@PathVariable Long idPedido) {
+        return pedidoService.buscarPedido(idPedido);
+    }
 }
