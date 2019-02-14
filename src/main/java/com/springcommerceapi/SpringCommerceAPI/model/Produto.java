@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "produto")
 public class Produto {
@@ -28,6 +30,7 @@ public class Produto {
 	}
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "produto")
+	@JsonIgnore
     private List<ItemPedido> itensPedido;
 
 	public Long getId() {

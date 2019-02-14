@@ -10,10 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table (name = "cliente")
@@ -57,6 +60,7 @@ public class Cliente {
 	}
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
+	@JsonIgnore
     private List<Pedido> pedidos;
 
 	public Long getId() {
@@ -178,6 +182,106 @@ public class Cliente {
 				+ dataNascimento + ", telefone=" + telefone + ", cpf=" + cpf + ", sexo=" + sexo + ", dataRegistro="
 				+ dataRegistro + ", endereco=" + endereco + ", numero=" + numero + ", bairro=" + bairro + ", cep=" + cep
 				+ ", complemento=" + complemento + ", pedidos=" + pedidos + "\n";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
+		result = prime * result + cep;
+		result = prime * result + ((complemento == null) ? 0 : complemento.hashCode());
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+		result = prime * result + ((dataNascimento == null) ? 0 : dataNascimento.hashCode());
+		result = prime * result + ((dataRegistro == null) ? 0 : dataRegistro.hashCode());
+		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
+		result = prime * result + ((pedidos == null) ? 0 : pedidos.hashCode());
+		result = prime * result + ((sexo == null) ? 0 : sexo.hashCode());
+		result = prime * result + ((sobrenome == null) ? 0 : sobrenome.hashCode());
+		result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		if (bairro == null) {
+			if (other.bairro != null)
+				return false;
+		} else if (!bairro.equals(other.bairro))
+			return false;
+		if (cep != other.cep)
+			return false;
+		if (complemento == null) {
+			if (other.complemento != null)
+				return false;
+		} else if (!complemento.equals(other.complemento))
+			return false;
+		if (cpf == null) {
+			if (other.cpf != null)
+				return false;
+		} else if (!cpf.equals(other.cpf))
+			return false;
+		if (dataNascimento == null) {
+			if (other.dataNascimento != null)
+				return false;
+		} else if (!dataNascimento.equals(other.dataNascimento))
+			return false;
+		if (dataRegistro == null) {
+			if (other.dataRegistro != null)
+				return false;
+		} else if (!dataRegistro.equals(other.dataRegistro))
+			return false;
+		if (endereco == null) {
+			if (other.endereco != null)
+				return false;
+		} else if (!endereco.equals(other.endereco))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (numero == null) {
+			if (other.numero != null)
+				return false;
+		} else if (!numero.equals(other.numero))
+			return false;
+		if (pedidos == null) {
+			if (other.pedidos != null)
+				return false;
+		} else if (!pedidos.equals(other.pedidos))
+			return false;
+		if (sexo == null) {
+			if (other.sexo != null)
+				return false;
+		} else if (!sexo.equals(other.sexo))
+			return false;
+		if (sobrenome == null) {
+			if (other.sobrenome != null)
+				return false;
+		} else if (!sobrenome.equals(other.sobrenome))
+			return false;
+		if (telefone == null) {
+			if (other.telefone != null)
+				return false;
+		} else if (!telefone.equals(other.telefone))
+			return false;
+		return true;
 	}
 	
 }

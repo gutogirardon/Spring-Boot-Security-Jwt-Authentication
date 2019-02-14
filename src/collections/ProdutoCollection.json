@@ -1,0 +1,200 @@
+{
+	"info": {
+		"_postman_id": "d26d38f5-fef2-4274-b9c7-1f1aeca5da42",
+		"name": "Produto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CadastrarProduto",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTAxMDMzMDQsImV4cCI6MTU1MDEyMTMwNH0.yysVYIs_zNlisQjZZx-srQx3cSWr1WeY8_0CDoDhbN4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\": \"Chinelo Mizzuno\",\n    \"descricao\": \"Tamanho 32\",\n    \"valor\": 90,\n    \"quantidade\": 15\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/produtos/cadastrar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"produtos",
+						"cadastrar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BuscarProdutoPorId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTAxMDMzMDQsImV4cCI6MTU1MDEyMTMwNH0.yysVYIs_zNlisQjZZx-srQx3cSWr1WeY8_0CDoDhbN4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/produtos/buscar/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"produtos",
+						"buscar",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BuscarTodosOsProdutos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTAxMDMzMDQsImV4cCI6MTU1MDEyMTMwNH0.yysVYIs_zNlisQjZZx-srQx3cSWr1WeY8_0CDoDhbN4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/produtos/listar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"produtos",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AtualizarProduto",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTAxMDMzMDQsImV4cCI6MTU1MDEyMTMwNH0.yysVYIs_zNlisQjZZx-srQx3cSWr1WeY8_0CDoDhbN4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 5,\n    \"nome\": \"Chinelo\",\n    \"descricao\": \"Tamanho 32\",\n    \"valor\": 90,\n    \"quantidade\": 15\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/produtos/atualizarProduto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"produtos",
+						"atualizarProduto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeletarProduto",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTAxMDMzMDQsImV4cCI6MTU1MDEyMTMwNH0.yysVYIs_zNlisQjZZx-srQx3cSWr1WeY8_0CDoDhbN4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/produtos/deletar?id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"produtos",
+						"deletar"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
