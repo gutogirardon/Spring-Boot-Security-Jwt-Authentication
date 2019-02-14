@@ -1,12 +1,6 @@
 package com.springcommerceapi.SpringCommerceAPI.resource;
-
 import com.springcommerceapi.SpringCommerceAPI.model.Produto;
-import com.springcommerceapi.SpringCommerceAPI.repository.ProdutoRepository;
 import com.springcommerceapi.SpringCommerceAPI.service.ProdutoService;
-
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,46 +18,39 @@ public class ProdutoResource {
 		this.produtoService = produtoService;
 	}
 
-	@Autowired
-	ProdutoRepository produtoRepository;
-	
-		// cadastrar produto
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@PostMapping(value = "/cadastrar", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Produto cadastraProduto(@RequestBody Produto produto) {
+	public String cadastraProduto(@RequestBody Produto produto){
 		produtoService.salvarProduto(produto, 1, produto.getQuantidade());
-		return produto;
+		return "Produto Salvo";
 	}
 
-	// Retornar dados do produto por id
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	@RequestMapping(value = "/buscar/{id}", method = RequestMethod.GET)
-	public Optional<Produto> getOne(@PathVariable(value = "id") long id) {
-		return produtoRepository.findById(id);
+	@DeleteMapping(value = "/deletar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)	
+	public String deletarProduto(@PathVariable Long id){
+		return produtoService.deletarProduto(id);
 	}
 
-	// Retornar todos os produtos cadastrados
-	@PreAuthorize("hasRole('ADMIN')")
-	@RequestMapping(value = "/listar", method = RequestMethod.GET)
-	public List<Produto> listUser() {
-		return produtoRepository.findAll();
-	}
-
-	// Atualizar produto passando tudo pelo body
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	@RequestMapping(value = "/atualizarProduto", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Produto atualizarProduto(@RequestBody Produto produto) {
-		produtoService.alterarProduto(produto);
-		return produto;
+	@GetMapping(value = "/buscarproduto/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Produto buscarProdutoId(@PathVariable Long id){
+	    return produtoService.buscarProdutoId(id);
+	            
 	}
 
-	// Deletar o produto passando o id
-		@PreAuthorize("hasAnyRole('ADMIN','USER')")
-		@RequestMapping(value = "/deletar", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-		public @ResponseBody String delete_produto(@RequestParam(value = "id") long id) {
-			produtoService.deletarProduto(id);
-			return "";
-			
-		}
+//	@PreAuthorize("hasAnyRole('ADMIN','USER')")
+//	@GetMapping(value = "/buscarproduto/", produces = MediaType.APPLICATION_JSON_VALUE)
+//	@ResponseBody
+//	public Produto buscarProdutoNome(@RequestParam(value="nome") String nome){
+//		return produtoService.buscarProdutoNome(nome);
+//	}
+
+	@PreAuthorize("hasAnyRole('ADMIN','USER')")
+	@RequestMapping(value = "/alterarproduto/", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Produto atualizarProduto (@RequestBody Produto produto){
+        produtoService.alterarProduto(produto);
+	    return null;
+    }
 
 }

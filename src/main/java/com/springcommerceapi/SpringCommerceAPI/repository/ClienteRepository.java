@@ -1,6 +1,5 @@
 package com.springcommerceapi.SpringCommerceAPI.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -13,7 +12,5 @@ import com.springcommerceapi.SpringCommerceAPI.model.Cliente;
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     Cliente findByNome(String nome);
-    Cliente findById(long id);
-    List<Cliente> findAll();    	
 
 }
