@@ -63,7 +63,7 @@ public class ItemPedidoService {
 	}
 
 	public void atualizarEstoqueEntrada(Pedido pedido) {
-		ArrayList<ItemPedido> item = (ArrayList<ItemPedido>) pedido.getItensPedido();
+		List<ItemPedido> item = pedido.getItensPedido();
 		for (ItemPedido itemPedido : item) {
 			Produto produto = produtoRepository.findById(itemPedido.getProduto().getId()).orElse(null);
 				produto.setQuantidade(produto.getQuantidade() + itemPedido.getQuantidade());
