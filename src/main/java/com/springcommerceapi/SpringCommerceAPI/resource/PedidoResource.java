@@ -1,15 +1,10 @@
 package com.springcommerceapi.SpringCommerceAPI.resource;
 
+import com.springcommerceapi.SpringCommerceAPI.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.springcommerceapi.SpringCommerceAPI.model.Cliente;
 import com.springcommerceapi.SpringCommerceAPI.model.Pedido;
@@ -18,6 +13,9 @@ import com.springcommerceapi.SpringCommerceAPI.repository.ClienteRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.PedidoRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.ProdutoRepository;
 import com.springcommerceapi.SpringCommerceAPI.service.ProdutoService;
+
+import java.text.ParseException;
+import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -35,6 +33,9 @@ public class PedidoResource {
     
     @Autowired
 	ProdutoService produtoService;
+
+    @Autowired
+    PedidoService pedidoService;
     
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@PostMapping(value =  "/comprar/{idCliente}/{idProduto}/{quantidade}")
@@ -61,6 +62,14 @@ public class PedidoResource {
         		//cliente.getCpf() + "\n" +
         		//cliente.getPedidos() + "\n";        		      
         return cliente.getPedidos() + "";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @GetMapping("/relatorio/{dataInicio}/{dataFinal}")
+    @ResponseBody
+    public String relatorioPedidos(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
+        return pedidoService.relatorio(dataInicio, dataFinal) + "";
+
     }
     
     
