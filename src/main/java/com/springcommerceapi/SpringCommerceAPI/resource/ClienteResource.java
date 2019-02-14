@@ -9,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springcommerceapi.SpringCommerceAPI.model.Cliente;
-import com.springcommerceapi.SpringCommerceAPI.model.Usuario;
 import com.springcommerceapi.SpringCommerceAPI.repository.ClienteRepository;
 import com.springcommerceapi.SpringCommerceAPI.service.ClienteService;
 
@@ -77,7 +73,11 @@ public class ClienteResource {
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@RequestMapping(value = "/deletar", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String delete_user(@RequestParam(value = "id") long id) {
-		clienteRepository.deleteById(id);
-		return "Usuário deletado com sucesso";
+		if (clienteService.deletarCliente(id) == true) {
+			return "Usuário deletado com sucesso";
+		} else {
+			return "Usuário não pode ser deletado";
+		}
+		
 	}
 }
