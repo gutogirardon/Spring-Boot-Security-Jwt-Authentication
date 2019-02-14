@@ -1,6 +1,5 @@
 package com.springcommerceapi.SpringCommerceAPI.resource;
 
-import com.springcommerceapi.SpringCommerceAPI.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,21 +13,18 @@ import com.springcommerceapi.SpringCommerceAPI.repository.PedidoRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.ProdutoRepository;
 import com.springcommerceapi.SpringCommerceAPI.service.ProdutoService;
 
-import java.text.ParseException;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/pedidos")
 public class PedidoResource {
-	
-	@Autowired
-    private ProdutoRepository produtoRepository;
 
     @Autowired
-    private ClienteRepository clienteRepository;
+    ItemPedidoService itemPedidoService;
 
     @Autowired
+    PedidoService pedidoService;
     private PedidoRepository pedidoRepository;
     
     @Autowired
@@ -46,22 +42,19 @@ public class PedidoResource {
         Pedido pedido = new Pedido(cliente);
         pedido.comprar(produto, quantidade);
 
-        pedidoRepository.save(pedido);
-        produtoService.salvarProduto(produto, 2, quantidade);
-
-        return "Sucesso na compra do produto: " + produto.getNome() + "\n";
-    }
-    
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @RequestMapping(value = "/compras/{idCliente}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value =  "/criar/{idCliente}")
+    public Pedido criarPedido(@PathVariable Long idCliente) {
+        Pedido pedido = pedidoService.salvarPedido(idCliente);
+        return pedido;
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PostMapping(value = "/adicionar/itens/{idPedido}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String comprar(@PathVariable Long idCliente) {
-        System.out.println("Nome do cliente: "+idCliente);
-        Cliente cliente = clienteRepository.findById(idCliente).orElse(null);
-        //return 	"Nome completo: " + cliente.getNome() + " " + cliente.getSobrenome() + " CPF: " +
-        		//cliente.getCpf() + "\n" +
-        		//cliente.getPedidos() + "\n";        		      
-        return cliente.getPedidos() + "";
+    public List<ItemPedido> cadastrarPedido(@PathVariable Long idPedido, @RequestBody List<ItemPedido> itemPedido){
+        itemPedidoService.salvarItens(idPedido, itemPedido);
+        return itemPedido;
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
@@ -74,7 +67,12 @@ public class PedidoResource {
     
     
 
-	
-	
-	
+    //implementar método que retorna os pedidos por cliente
+    /*@PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @GetMapping(value = "/{idCliente}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Pedido> buscarPedidos(@PathVariable Long idCliente) {
+
+        return pedidos;
+    }*/
 }

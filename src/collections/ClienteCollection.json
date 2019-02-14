@@ -1,0 +1,200 @@
+{
+	"info": {
+		"_postman_id": "0cce040b-ef6c-4886-b432-81f737e89dc1",
+		"name": "Cliente",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CadastrarCliente",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTAwOTgwMDgsImV4cCI6MTU1MDExNjAwOH0.MBKfGUAfgM1QfjXBiPodx51QveONgxyIN9vt4vm8xjI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nome\": \"Joao Furduncio\",\n\t\"sobrenome\": \"Malaquias\",\n\t\"dataNascimento\": \"1992-01-01\",\n\t\"telefone\": \"34225555\",\n\t\"cpf\": \"15658499487\",\n\t\"sexo\": \"masculino\",\n\t\"endereco\": \"rua rua\",\n\t\"numero\": \"123\",\n\t\"bairro\": \"bairro2\",\n\t\"cep\": \"9765433\",\n\t\"complemento\": \"Frente a Unipampa\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/clientes/cadastrarcliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"clientes",
+						"cadastrarcliente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BuscarClientePorID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTAwOTgwMDgsImV4cCI6MTU1MDExNjAwOH0.MBKfGUAfgM1QfjXBiPodx51QveONgxyIN9vt4vm8xjI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/clientes/buscar/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"clientes",
+						"buscar",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AtualizarCliente",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTAwOTgwMDgsImV4cCI6MTU1MDExNjAwOH0.MBKfGUAfgM1QfjXBiPodx51QveONgxyIN9vt4vm8xjI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 5,\n    \"nome\": \"mudei aquaaaai\",\n    \"sobrenome\": \"tambem aaaqui\",\n    \"dataNascimento\": \"1992-01-01T00:00:00.000+0000\",\n    \"telefone\": 12121212,\n    \"cpf\": 19878768712,\n    \"sexo\": \"masculino\",\n    \"dataRegistro\": \"11/02/2019\",\n    \"endereco\": \"rua rua rua\",\n    \"numero\": \"12223\",\n    \"bairro\": \"bairro2\",\n    \"cep\": 97625433,\n    \"complemento\": \"Frente sa Unipampa\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/clientes/atualizarcliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"clientes",
+						"atualizarcliente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BuscarTodosClientes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTAwOTgwMDgsImV4cCI6MTU1MDExNjAwOH0.MBKfGUAfgM1QfjXBiPodx51QveONgxyIN9vt4vm8xjI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/clientes/listar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"clientes",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeletarClientePorId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTAwOTgwMDgsImV4cCI6MTU1MDExNjAwOH0.MBKfGUAfgM1QfjXBiPodx51QveONgxyIN9vt4vm8xjI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/clientes/deletar?id=4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"clientes",
+						"deletar"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
