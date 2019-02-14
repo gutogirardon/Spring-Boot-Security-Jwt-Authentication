@@ -1,9 +1,12 @@
 package com.springcommerceapi.SpringCommerceAPI.service;
 
 import com.springcommerceapi.SpringCommerceAPI.model.Cliente;
+import com.springcommerceapi.SpringCommerceAPI.model.ItemPedido;
 import com.springcommerceapi.SpringCommerceAPI.model.Pedido;
+import com.springcommerceapi.SpringCommerceAPI.model.Produto;
 import com.springcommerceapi.SpringCommerceAPI.repository.ClienteRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.PedidoRepository;
+import com.springcommerceapi.SpringCommerceAPI.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +26,33 @@ public class PedidoService {
 	ClienteRepository clienteRepository;
 
 	@Autowired
+	ProdutoRepository produtoRepository;
+
+	@Autowired
 	ItemPedidoService itemPedidoService;
 
 	public PedidoService(PedidoRepository pedidoRepository) {
 		this.pedidoRepository = pedidoRepository;
 	}
 
-	public Pedido salvarPedido(Long idCliente){
-		Cliente cliente = clienteRepository.findById(idCliente).orElse(null);
-		Pedido pedido = new Pedido(cliente);
+	public Pedido salvarPedido(Pedido pedido) {
+		pedido.setData_pedido(new Date());
+		Cliente cliente = clienteRepository.findById(pedido.getCliente().getId()).orElse(null);
+		pedido.setCliente(cliente);
+		for (ItemPedido itemPedido : pedido.getItensPedido()) {
+			Produto produto = produtoRepository.findById(itemPedido.getProduto().getId()).orElse(null);
+			if (itemPedidoService.verificarDisponibilidade(itemPedido.getProduto().getId(), itemPedido.getQuantidade()) == true) {
+				produto.setQuantidade(produto.getQuantidade() - itemPedido.getQuantidade());
+				itemPedido.setPreco_unitario(produto.getValor());
+				itemPedido.setPreco_total(produto.getValor() * itemPedido.getQuantidade());
+				itemPedido.setPedido(pedido);
+				itemPedido.setProduto(produto);
+				pedido.setValor_total(pedido.getValor_total() + itemPedido.getPreco_total());
+				itemPedidoService.atualizarEstoqueSaida(itemPedido, produto);
+			} else {
+				//implementar o que acontece caso não tenha a quantidade do produto
+			}
+		}
 		pedidoRepository.save(pedido);
 		return pedido;
 	}
@@ -93,4 +114,5 @@ public class PedidoService {
 		Pedido pedido = pedidoRepository.findById(idPedido).orElse(null);
 		return pedido;
 	}
+
 }

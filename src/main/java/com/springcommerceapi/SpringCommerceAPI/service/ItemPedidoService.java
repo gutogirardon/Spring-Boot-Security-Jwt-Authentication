@@ -26,30 +26,7 @@ public class ItemPedidoService {
 	@Autowired
 	EstoqueRepository estoqueRepository;
 
-	@Autowired
-	PedidoRepository pedidoRepository;
-
-	public void salvarItens(Long idPedido, List<ItemPedido> item) {
-		Pedido pedido = pedidoRepository.findById(idPedido).orElse(null);
-		for (ItemPedido itemPedido : item) {
-			Produto produto = produtoRepository.findById(itemPedido.getProduto().getId()).orElse(null);
-			if (verificarDisponibilidade(itemPedido.getProduto().getId(), itemPedido.getQuantidade()) == true) {
-				produto.setQuantidade(produto.getQuantidade() - itemPedido.getQuantidade());
-				itemPedido.setPreco_unitario(produto.getValor());
-				itemPedido.setPreco_total(produto.getValor() * itemPedido.getQuantidade());
-				itemPedido.setPedido(pedido);
-				itemPedido.setProduto(produto);
-				pedido.setValor_total(pedido.getValor_total() + itemPedido.getPreco_total());
-				atualizarEstoqueSaida(itemPedido, produto);
-				pedidoRepository.save(pedido);
-				itemPedidoRepository.save(itemPedido);
-			} else {
-				//implementar o que acontece caso não tenha a quantidade do produto
-			}
-		}
-	}
-
-	private boolean verificarDisponibilidade(Long idProduto, int quantidade) {
+	public boolean verificarDisponibilidade(Long idProduto, int quantidade) {
 		Produto produto = produtoRepository.findById(idProduto).orElse(null);
 		if (quantidade <= produto.getQuantidade() && quantidade > 0) {
 			return true;

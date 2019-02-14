@@ -24,18 +24,12 @@ public class PedidoResource {
     PedidoService pedidoService;
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @PostMapping(value =  "/criar/{idCliente}")
-    public Pedido criarPedido(@PathVariable Long idCliente) {
-        Pedido pedido = pedidoService.salvarPedido(idCliente);
-        return pedido;
-    }
-
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @PostMapping(value = "/adicionar/itens/{idPedido}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<ItemPedido> cadastrarPedido(@PathVariable Long idPedido, @RequestBody List<ItemPedido> itemPedido){
-        itemPedidoService.salvarItens(idPedido, itemPedido);
-        return itemPedido;
+    @PostMapping(value =  "/cadastrar")
+    public Pedido salvarPedido(@RequestBody Pedido pedido) {
+        for (ItemPedido i : pedido.getItensPedido()) {
+            i.setPedido(pedido);
+        }
+        return pedidoService.salvarPedido(pedido);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
