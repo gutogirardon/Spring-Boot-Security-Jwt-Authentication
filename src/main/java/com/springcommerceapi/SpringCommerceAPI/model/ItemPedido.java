@@ -1,5 +1,7 @@
 package com.springcommerceapi.SpringCommerceAPI.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -23,6 +25,7 @@ public class ItemPedido {
 	
     @ManyToOne(optional = false)
     @JoinColumn(name = "pedido_id", referencedColumnName = "id")
+	@JsonIgnore
     private Pedido pedido;
     
     @ManyToOne(optional = false)

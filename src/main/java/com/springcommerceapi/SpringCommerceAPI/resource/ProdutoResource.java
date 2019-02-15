@@ -49,7 +49,7 @@ public class ProdutoResource {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	@RequestMapping(value = "/alterarproduto/", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/atualizarproduto", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Produto atualizarProduto (@RequestBody Produto produto){
 		produtoService.alterarProduto(produto);
 		return produto;
