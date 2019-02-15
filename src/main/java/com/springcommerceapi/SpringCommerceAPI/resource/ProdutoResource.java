@@ -62,7 +62,7 @@ public class ProdutoResource {
 		@RequestMapping(value = "/deletar", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody String delete_produto(@RequestParam(value = "id") long id) {
 			produtoService.deletarProduto(id);
-			return "";
+			return "Produto Deletado com Sucesso";
 			
 		}
 
