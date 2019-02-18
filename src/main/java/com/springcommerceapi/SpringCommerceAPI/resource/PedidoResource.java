@@ -32,7 +32,7 @@ public class PedidoResource {
         return pedidoService.salvarPedido(pedido);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/relatorio/{dataInicio}/{dataFinal}")
     @ResponseBody
     public List<Pedido> relatorioPedidos(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
@@ -45,7 +45,7 @@ public class PedidoResource {
         return pedidoService.alterarPedido(idPedido);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/relatorio/{idCliente}")
     @ResponseBody
     public String relatorioPedidos(@PathVariable Long idCliente) throws ParseException {

@@ -60,9 +60,13 @@ public class PedidoService {
 	public Pedido alterarPedido(Long idPedido) {
 		Pedido pedido = pedidoRepository.findById(idPedido).orElse(null);
 		if(pedidoRepository.existsById(pedido.getId())) {
-			pedido.setStatus(2);
-			itemPedidoService.atualizarEstoqueEntrada(pedido);
-			pedidoRepository.save(pedido);
+			if(pedido.getStatus() == 0) {
+				pedido.setStatus(1);
+				itemPedidoService.atualizarEstoqueEntrada(pedido);
+				pedidoRepository.save(pedido);
+			} else {
+				return pedido;
+			}
 		}
 		return pedido;
 	}
