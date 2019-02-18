@@ -563,8 +563,193 @@
 			"name": "relatorios",
 			"item": [
 				{
-					"name": "Relatorio de pedidos por cliente",
-					"item": [],
+					"name": "Relatorio de entrada",
+					"item": [
+						{
+							"name": "Relatorio de entrada sem autenticação",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "acfe42ae-9ea0-43b4-ab4b-eae1ef7443d6",
+										"exec": [
+											"tests[\"Recuperar relatório de entrada sem autenticação\"] = responseCode.code === 401;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8080/relatorio/entrada/2000-01-01/2020-01-01",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"relatorio",
+										"entrada",
+										"2000-01-01",
+										"2020-01-01"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Relatorio de entrada vazio",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "881f061d-e18f-4987-a23d-21628df91edc",
+										"exec": [
+											"tests[\"Requisição bem sucedida\"] = responseCode.code === 200;",
+											"",
+											"if(responseCode.code === 200){",
+											"  ",
+											"  var body = JSON.parse(responseBody);",
+											"  ",
+											"  tests[\"Retornando vazio\"] = responseBody === \"[]\";",
+											"  ",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTA0OTgwNzgsImV4cCI6MTU1MDUxNjA3OH0.VAlm3sXxq46qUi5F3YKTp04msUkZ7B9GFzVm6RP1_L4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8080/relatorio/entrada/1990-01-01/1991-01-01",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"relatorio",
+										"entrada",
+										"1990-01-01",
+										"1991-01-01"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retornando entradas no estoque",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "805aba99-584b-4ac2-9759-c7af05e0af2c",
+										"exec": [
+											"var responseBody;",
+											"JSON.parse(responseBody);",
+											"",
+											"var hasId = true;",
+											"var hasNome = true;",
+											"var hasDescricao = true;",
+											"var hasValor = true;",
+											"var hasQuantidade = true;",
+											"",
+											"tests[\"Requisição bem sucedida\"] = responseCode.code === 200;",
+											"",
+											"if(responseCode.code === 200 &&  ",
+											"        responseBody.has(\"id\") &&",
+											"        responseBody.has(\"nome\") &&",
+											"        responseBody.has(\"descricao\") &&",
+											"        responseBody.has(\"valor\") &&",
+											"        responseBody.has(\"quantidade\")){",
+											"    ",
+											"    for( var x = 0; x < responseBody.length; x++){",
+											"        if(responseBody.id === \"\"){",
+											"            hasId = false;",
+											"        }",
+											"        if(responseBody.nome === \"\"){",
+											"            hasName = false;",
+											"        }",
+											"        if(responseBody.descricao === \"\"){",
+											"            hasDescricao = false;",
+											"        }",
+											"        if(responseBody.valor === \"\"){",
+											"            hasValor = false;",
+											"        }",
+											"        if(responseBody.quantidade === \"\"){",
+											"            hasQuantidade = false;",
+											"        }",
+											"    }",
+											"        ",
+											"    tests[\"Retorna todos os atributos de produto que entraram no estoque com valor \"] = ",
+											"        hasId === true ||",
+											"        hasNome === true ||",
+											"        hasDescricao === true ||",
+											"        hasValor === true ||",
+											"        hasQuantidade === true;",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTA1MDA1MTQsImV4cCI6MTU1MDUxODUxNH0.JPdKNHpns4LeOa3HY2v97SjUOIVmWMhNAKuMC_SaszA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8080/relatorio/entrada/2000-01-01/2020-01-01",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"relatorio",
+										"entrada",
+										"2000-01-01",
+										"2020-01-01"
+									]
+								}
+							},
+							"response": []
+						}
+					],
 					"_postman_isSubFolder": true
 				},
 				{
@@ -683,24 +868,47 @@
 										"id": "7d0db061-a566-451e-9deb-65d3074a6f1b",
 										"exec": [
 											"var responseBody;",
+											"JSON.parse(responseBody);",
+											"",
+											"var hasId = true;",
+											"var hasNome = true;",
+											"var hasDescricao = true;",
+											"var hasValor = true;",
+											"var hasQuantidade = true;",
+											"",
 											"tests[\"Requisição bem sucedida\"] = responseCode.code === 200;",
-											"if(responseCode.code === 200){",
-											" ",
-											"  JSON.parse(responseBody);",
-											"  ",
-											"  tests[\"Retorna todos os atributos do produto que sairam do estoque\"] =  ",
-											"        responseBody.has(\"id\") && ",
+											"",
+											"if(responseCode.code === 200 &&  ",
+											"        responseBody.has(\"id\") &&",
 											"        responseBody.has(\"nome\") &&",
 											"        responseBody.has(\"descricao\") &&",
 											"        responseBody.has(\"valor\") &&",
-											"        responseBody.has(\"quantidade\");",
+											"        responseBody.has(\"quantidade\")){",
+											"    ",
+											"    for( var x = 0; x < responseBody.length; x++){",
+											"        if(responseBody.id === \"\"){",
+											"            hasId = false;",
+											"        }",
+											"        if(responseBody.nome === \"\"){",
+											"            hasName = false;",
+											"        }",
+											"        if(responseBody.descricao === \"\"){",
+											"            hasDescricao = false;",
+											"        }",
+											"        if(responseBody.valor === \"\"){",
+											"            hasValor = false;",
+											"        }",
+											"        if(responseBody.quantidade === \"\"){",
+											"            hasQuantidade = false;",
+											"        }",
+											"    }",
 											"        ",
-											"    tests[\"Retorna todos os atributos do produto que sairam do estoque com valor \"] =  ",
-											"        !responseBody.id || ",
-											"        !responseBody.nome ||",
-											"        !responseBody.descricao ||",
-											"        !responseBody.valor ||",
-											"        !responseBody.quantidade;",
+											"    tests[\"Retorna todos os atributos de produto que entraram no estoque com valor \"] = ",
+											"        hasId === true ||",
+											"        hasNome === true ||",
+											"        hasDescricao === true ||",
+											"        hasValor === true ||",
+											"        hasQuantidade === true;",
 											"}"
 										],
 										"type": "text/javascript"
@@ -750,172 +958,8 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "Relatorio de entrada",
-					"item": [
-						{
-							"name": "Relatorio de entrada sem autenticação",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "acfe42ae-9ea0-43b4-ab4b-eae1ef7443d6",
-										"exec": [
-											"tests[\"Recuperar relatório de entrada sem autenticação\"] = responseCode.code === 401;"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "http://localhost:8080/relatorio/entrada/2000-01-01/2020-01-01",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"relatorio",
-										"entrada",
-										"2000-01-01",
-										"2020-01-01"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Relatorio de entrada vazio",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "881f061d-e18f-4987-a23d-21628df91edc",
-										"exec": [
-											"tests[\"Requisição bem sucedida\"] = responseCode.code === 200;",
-											"",
-											"if(responseCode.code === 200){",
-											"  ",
-											"  var body = JSON.parse(responseBody);",
-											"  ",
-											"  tests[\"Retornando vazio\"] = responseBody === \"[]\";",
-											"  ",
-											"}"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTA0OTgwNzgsImV4cCI6MTU1MDUxNjA3OH0.VAlm3sXxq46qUi5F3YKTp04msUkZ7B9GFzVm6RP1_L4",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "http://localhost:8080/relatorio/entrada/1990-01-01/1991-01-01",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"relatorio",
-										"entrada",
-										"1990-01-01",
-										"1991-01-01"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Retornando entradas no estoque",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "805aba99-584b-4ac2-9759-c7af05e0af2c",
-										"exec": [
-											"var responseBody;",
-											"",
-											"tests[\"Requisição bem sucedida\"] = responseCode.code === 200;",
-											"",
-											"if(responseCode.code === 200){",
-											"    ",
-											"    JSON.parse(responseBody);",
-											"",
-											"  tests[\"Retorna todos os atributos produtos que entraram do estoque\"] =  ",
-											"        responseBody.has(\"id\") && ",
-											"        responseBody.has(\"nome\") &&",
-											"        responseBody.has(\"descricao\") &&",
-											"        responseBody.has(\"valor\") &&",
-											"        responseBody.has(\"quantidade\");",
-											"        ",
-											"    tests[\"Retorna todos os atributos de produto que entraram no estoque com valor \"] =  ",
-											"        !responseBody.id || ",
-											"        !responseBody.nome ||",
-											"        !responseBody.descricao ||",
-											"        !responseBody.valor ||",
-											"        !responseBody.quantidade;",
-											"}"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTA1MDA1MTQsImV4cCI6MTU1MDUxODUxNH0.JPdKNHpns4LeOa3HY2v97SjUOIVmWMhNAKuMC_SaszA",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "http://localhost:8080/relatorio/entrada/2000-01-01/2020-01-01",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"relatorio",
-										"entrada",
-										"2000-01-01",
-										"2020-01-01"
-									]
-								}
-							},
-							"response": []
-						}
-					],
+					"name": "Relatorio de pedidos por cliente",
+					"item": [],
 					"_postman_isSubFolder": true
 				},
 				{
