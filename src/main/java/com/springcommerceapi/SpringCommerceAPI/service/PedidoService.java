@@ -57,7 +57,9 @@ public class PedidoService {
 				it.remove();
 			}
 		}
-		pedidoRepository.save(pedido);
+		if(!pedido.getItensPedido().isEmpty()) {
+			pedidoRepository.save(pedido);
+		}
 		return pedido;
 	}
 
