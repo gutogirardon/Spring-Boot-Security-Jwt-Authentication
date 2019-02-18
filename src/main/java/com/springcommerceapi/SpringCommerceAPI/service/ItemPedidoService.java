@@ -28,8 +28,10 @@ public class ItemPedidoService {
 
 	public boolean verificarDisponibilidade(Long idProduto, int quantidade) {
 		Produto produto = produtoRepository.findById(idProduto).orElse(null);
-		if (quantidade <= produto.getQuantidade() && quantidade > 0) {
-			return true;
+		if(produto != null){
+			if (quantidade <= produto.getQuantidade() && quantidade > 0) {
+				return true;
+			}
 		}
 		return false;
 	}

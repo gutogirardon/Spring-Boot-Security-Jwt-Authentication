@@ -7,6 +7,7 @@ import com.springcommerceapi.SpringCommerceAPI.model.Produto;
 import com.springcommerceapi.SpringCommerceAPI.repository.ClienteRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.PedidoRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.ProdutoRepository;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -39,7 +41,9 @@ public class PedidoService {
 		pedido.setData_pedido(new Date());
 		Cliente cliente = clienteRepository.findById(pedido.getCliente().getId()).orElse(null);
 		pedido.setCliente(cliente);
-		for (ItemPedido itemPedido : pedido.getItensPedido()) {
+		Iterator<ItemPedido> it = pedido.getItensPedido().iterator();
+		while(it.hasNext()){
+			ItemPedido itemPedido = it.next();
 			Produto produto = produtoRepository.findById(itemPedido.getProduto().getId()).orElse(null);
 			if (itemPedidoService.verificarDisponibilidade(itemPedido.getProduto().getId(), itemPedido.getQuantidade()) == true) {
 				produto.setQuantidade(produto.getQuantidade() - itemPedido.getQuantidade());
@@ -50,7 +54,7 @@ public class PedidoService {
 				pedido.setValor_total(pedido.getValor_total() + itemPedido.getPreco_total());
 				itemPedidoService.atualizarEstoqueSaida(itemPedido, produto);
 			} else {
-				//implementar o que acontece caso não tenha a quantidade do produto
+				it.remove();
 			}
 		}
 		pedidoRepository.save(pedido);
