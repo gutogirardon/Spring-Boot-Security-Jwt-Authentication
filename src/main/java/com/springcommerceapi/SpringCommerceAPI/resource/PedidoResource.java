@@ -35,8 +35,8 @@ public class PedidoResource {
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("/relatorio/{dataInicio}/{dataFinal}")
     @ResponseBody
-    public String relatorioPedidos(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
-        return pedidoService.relatorio(dataInicio, dataFinal) + "";
+    public List<Pedido> relatorioPedidos(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
+        return pedidoService.relatorio(dataInicio, dataFinal);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")

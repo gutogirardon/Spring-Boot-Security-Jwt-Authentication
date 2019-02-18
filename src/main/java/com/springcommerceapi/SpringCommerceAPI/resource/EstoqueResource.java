@@ -33,17 +33,9 @@ public class EstoqueResource {
 	
 	@GetMapping("/saida/{dataInicio}/{dataFinal}")
 	@ResponseBody
-	public String relatorioSaida(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
-		return estoqueService.relatorioDeSaida(dataInicio, dataFinal) + "";
-
+	public List<Produto> relatorioSaida(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
+		return estoqueService.relatorioDeSaida(dataInicio, dataFinal);
 	}
 
-	public List<Produto> gerarRelatorioSaidaProdutos() {
-		return null;
-	}
-
-	public List<Produto> gerarRelatorioEntradaProdutos() {
-		return null;
-	}
 
 }
