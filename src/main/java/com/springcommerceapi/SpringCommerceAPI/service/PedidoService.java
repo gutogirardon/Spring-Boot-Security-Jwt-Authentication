@@ -65,7 +65,7 @@ public class PedidoService {
 
 	public Pedido alterarPedido(Long idPedido) {
 		Pedido pedido = pedidoRepository.findById(idPedido).orElse(null);
-		if(pedidoRepository.existsById(pedido.getId())) {
+		if(pedido != null) {
 			if(pedido.getStatus() == 0) {
 				pedido.setStatus(1);
 				itemPedidoService.atualizarEstoqueEntrada(pedido);
