@@ -804,7 +804,159 @@
 							"response": []
 						},
 						{
+							"name": "Retornando saidas no estoque",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7d0db061-a566-451e-9deb-65d3074a6f1b",
+										"exec": [
+											"var responseBody;",
+											"JSON.parse(responseBody);",
+											"",
+											"var hasId = true;",
+											"var hasNome = true;",
+											"var hasDescricao = true;",
+											"var hasValor = true;",
+											"var hasQuantidade = true;",
+											"",
+											"tests[\"Requisição bem sucedida\"] = responseCode.code === 200;",
+											"",
+											"if(responseCode.code === 200 &&  ",
+											"        responseBody.has(\"id\") &&",
+											"        responseBody.has(\"nome\") &&",
+											"        responseBody.has(\"descricao\") &&",
+											"        responseBody.has(\"valor\") &&",
+											"        responseBody.has(\"quantidade\")){",
+											"    ",
+											"    for( var x = 0; x < responseBody.length; x++){",
+											"        if(responseBody.id === \"\"){",
+											"            hasId = false;",
+											"        }",
+											"        if(responseBody.nome === \"\"){",
+											"            hasName = false;",
+											"        }",
+											"        if(responseBody.descricao === \"\"){",
+											"            hasDescricao = false;",
+											"        }",
+											"        if(responseBody.valor === \"\"){",
+											"            hasValor = false;",
+											"        }",
+											"        if(responseBody.quantidade === \"\"){",
+											"            hasQuantidade = false;",
+											"        }",
+											"    }",
+											"        ",
+											"    tests[\"Retorna todos os atributos de produto que sairam do estoque com valor \"] = ",
+											"        hasId === true ||",
+											"        hasNome === true ||",
+											"        hasDescricao === true ||",
+											"        hasValor === true ||",
+											"        hasQuantidade === true;",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8080/relatorio/saida/2000-01-01/2020-01-01",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"relatorio",
+										"saida",
+										"2000-01-01",
+										"2020-01-01"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Relatorio de saida vazio",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "89645815-4d90-4971-95c4-615d2523d89f",
+										"exec": [
+											"tests[\"Requisição bem sucedida\"] = responseCode.code === 200;",
+											"",
+											"if(responseCode.code === 200){",
+											"  ",
+											"  var body = JSON.parse(responseBody);",
+											"  ",
+											"  tests[\"Retornando vazio\"] = responseBody === \"[]\";",
+											"  ",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTA0OTkwOTYsImV4cCI6MTU1MDUxNzA5Nn0.EmcM_gJs1LGzf7YxpdL0U-_ywPj5LzZeAS14YzhHw3E",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8080/relatorio/saida/1990-01-01/1991-01-01",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"relatorio",
+										"saida",
+										"1990-01-01",
+										"1991-01-01"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Relatório de pedidos por período",
+					"item": [
+						{
+							"name": "Relatorio de pedidos vazio",
 							"event": [
 								{
 									"listen": "test",
@@ -860,55 +1012,120 @@
 							"response": []
 						},
 						{
-							"name": "Retornando saidas no estoque",
+							"name": "Relatorio de pedidos sem autenticação",
 							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "580eb1de-d431-40ed-9318-54805d5313ab",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
 								{
 									"listen": "test",
 									"script": {
-										"id": "7d0db061-a566-451e-9deb-65d3074a6f1b",
+										"id": "2044689f-13d5-45d6-af12-a0a764fd7647",
+										"exec": [
+											"tests[\"Recuperar relatório de todos os pedidos sem autenticação\"] = responseCode.code === 401;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8080/pedidos/relatorio/2000-01-01/2020-01-01",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"pedidos",
+										"relatorio",
+										"2000-01-01",
+										"2020-01-01"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Relatorio de todos os pedidos",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "580eb1de-d431-40ed-9318-54805d5313ab",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "2044689f-13d5-45d6-af12-a0a764fd7647",
 										"exec": [
 											"var responseBody;",
 											"JSON.parse(responseBody);",
 											"",
 											"var hasId = true;",
-											"var hasNome = true;",
-											"var hasDescricao = true;",
-											"var hasValor = true;",
-											"var hasQuantidade = true;",
+											"var hasData_pedido = true;",
+											"var hasValor_total = true;",
+											"var hasStatus = true;",
+											"var hasCliente = true;",
+											"var hasItemProduto = true;",
+											"",
 											"",
 											"tests[\"Requisição bem sucedida\"] = responseCode.code === 200;",
 											"",
-											"if(responseCode.code === 200 &&  ",
-											"        responseBody.has(\"id\") &&",
-											"        responseBody.has(\"nome\") &&",
-											"        responseBody.has(\"descricao\") &&",
-											"        responseBody.has(\"valor\") &&",
-											"        responseBody.has(\"quantidade\")){",
+											"if(responseCode.code === 200){",
 											"    ",
 											"    for( var x = 0; x < responseBody.length; x++){",
 											"        if(responseBody.id === \"\"){",
 											"            hasId = false;",
 											"        }",
-											"        if(responseBody.nome === \"\"){",
-											"            hasName = false;",
+											"        if(responseBody.data_pedido === \"\"){",
+											"            hasData_pedido = false;",
 											"        }",
-											"        if(responseBody.descricao === \"\"){",
-											"            hasDescricao = false;",
+											"        if(responseBody.valor_total === \"\"){",
+											"            hasValor_total = false;",
 											"        }",
-											"        if(responseBody.valor === \"\"){",
-											"            hasValor = false;",
+											"        if(responseBody.status === \"\"){",
+											"            hasStatus = false;",
 											"        }",
 											"        if(responseBody.quantidade === \"\"){",
-											"            hasQuantidade = false;",
+											"            hasCliente = false;",
 											"        }",
 											"    }",
 											"        ",
-											"    tests[\"Retorna todos os atributos de produto que entraram no estoque com valor \"] = ",
+											"    tests[\"Retorna todos os atributos de produto que sairam do estoque com valor \"] = ",
 											"        hasId === true ||",
-											"        hasNome === true ||",
-											"        hasDescricao === true ||",
-											"        hasValor === true ||",
-											"        hasQuantidade === true;",
+											"        hasData_pedido === true ||",
+											"        hasValor_total === true ||",
+											"        hasStatus === true ||",
+											"        hasCliente === true;",
 											"}"
 										],
 										"type": "text/javascript"
@@ -921,7 +1138,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTA1MDUyMDUsImV4cCI6MTU1MDUyMzIwNX0.lAdC5-xFqs2cGQGrKywskZ3tzxtIG5polhyQf2TZHlE",
+											"value": "{{token}}",
 											"type": "string"
 										}
 									]
@@ -933,15 +1150,15 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "http://localhost:8080/relatorio/saida/2000-01-01/2020-01-01",
+									"raw": "http://localhost:8080/pedidos/relatorio/2000-01-01/2020-01-01",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
+										"pedidos",
 										"relatorio",
-										"saida",
 										"2000-01-01",
 										"2020-01-01"
 									]
@@ -950,11 +1167,6 @@
 							"response": []
 						}
 					],
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "Relatório de pedidos por período",
-					"item": [],
 					"_postman_isSubFolder": true
 				},
 				{
