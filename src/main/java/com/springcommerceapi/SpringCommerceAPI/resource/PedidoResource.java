@@ -48,8 +48,8 @@ public class PedidoResource {
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/relatorio/{idCliente}")
     @ResponseBody
-    public String relatorioPedidos(@PathVariable Long idCliente) throws ParseException {
-        return pedidoService.relatorioPedidoCliente(idCliente) + "";
+    public List<Pedido> relatorioPedidos(@PathVariable Long idCliente) throws ParseException {
+        return pedidoService.relatorioPedidoCliente(idCliente);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
