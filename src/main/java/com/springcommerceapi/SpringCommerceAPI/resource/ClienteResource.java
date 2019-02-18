@@ -72,11 +72,17 @@ public class ClienteResource {
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@RequestMapping(value = "/deletar", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String delete_user(@RequestParam(value = "id") long id) {
+		try{
 		if (clienteService.deletarCliente(id) == true) {
 			return "Usuário deletado com sucesso";
 		} else {
 			return "Usuário não pode ser deletado";
 		}
 		
+	
+	}catch(NullPointerException npe){
+		  
+		}
+		return "Usuário Inexistente";
 	}
 }
