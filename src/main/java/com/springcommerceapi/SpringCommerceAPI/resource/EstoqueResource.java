@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,14 +24,16 @@ public class EstoqueResource {
 	
 	@Autowired
 	EstoqueService estoqueService;
-	
+
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("/entrada/{dataInicio}/{dataFinal}")
 	@ResponseBody
 	public List<Produto> relatorioEntrada(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
 		return estoqueService.relatorioDeEntrada(dataInicio, dataFinal);
 
 	}
-	
+
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("/saida/{dataInicio}/{dataFinal}")
 	@ResponseBody
 	public List<Produto> relatorioSaida(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
