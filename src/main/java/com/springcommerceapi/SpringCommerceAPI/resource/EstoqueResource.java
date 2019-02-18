@@ -1,6 +1,7 @@
 package com.springcommerceapi.SpringCommerceAPI.resource;
 
 import com.springcommerceapi.SpringCommerceAPI.model.Cliente;
+import com.springcommerceapi.SpringCommerceAPI.model.Estoque;
 import com.springcommerceapi.SpringCommerceAPI.model.Produto;
 import com.springcommerceapi.SpringCommerceAPI.service.EstoqueService;
 
@@ -25,24 +26,16 @@ public class EstoqueResource {
 	
 	@GetMapping("/entrada/{dataInicio}/{dataFinal}")
 	@ResponseBody
-	public String relatorioEntrada(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
-		return estoqueService.relatorioDeEntrada(dataInicio, dataFinal) + "";
+	public List<Produto> relatorioEntrada(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
+		return estoqueService.relatorioDeEntrada(dataInicio, dataFinal);
 
 	}
 	
 	@GetMapping("/saida/{dataInicio}/{dataFinal}")
 	@ResponseBody
-	public String relatorioSaida(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
-		return estoqueService.relatorioDeSaida(dataInicio, dataFinal) + "";
-
+	public List<Produto> relatorioSaida(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
+		return estoqueService.relatorioDeSaida(dataInicio, dataFinal);
 	}
 
-	public List<Produto> gerarRelatorioSaidaProdutos() {
-		return null;
-	}
-
-	public List<Produto> gerarRelatorioEntradaProdutos() {
-		return null;
-	}
 
 }
