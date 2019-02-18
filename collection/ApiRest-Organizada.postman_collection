@@ -1,13 +1,139 @@
 {
 	"info": {
-		"_postman_id": "a38686f8-4fbc-4168-b8e6-e72a08c18149",
-		"name": "APIREST-Organizada por folder",
+		"_postman_id": "fd6ca3e9-4849-4875-9d88-545bd5301901",
+		"name": "coleçãofinal",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "crud cliente",
 			"item": [
+				{
+					"name": "CadastrarCliente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "95db04f8-6009-4042-af2f-6ae431da4b33",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"ClienteId\", jsonData.id);",
+									"pm.globals.set(\"ClienteNome\", jsonData.nome);",
+									"",
+									"pm.test(\"Cadastrar Cliente POST Sucesso\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+									"});",
+									"",
+									"pm.test(\"Tempo de resposta menor que 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nome\": \"Joao\",\n\t\"sobrenome\": \"Malaquias\",\n\t\"dataNascimento\": \"1992-01-01\",\n\t\"telefone\": \"34225555\",\n\t\"cpf\": \"15658499487\",\n\t\"sexo\": \"masculino\",\n\t\"endereco\": \"rua rua\",\n\t\"numero\": \"123\",\n\t\"bairro\": \"bairro2\",\n\t\"cep\": \"9765433\",\n\t\"complemento\": \"Frente a Unipampa\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/clientes/cadastrarcliente",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes",
+								"cadastrarcliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AtualizarCliente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "936d845b-6d3f-489f-a469-ad17a92ac0e0",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"ClienteId\", jsonData.id);",
+									"pm.globals.set(\"ClienteNovoNome\", jsonData.nome);",
+									"",
+									"pm.test(\"Alteracao Cliente Sucesso\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+									"});",
+									"",
+									"pm.test(\"Tempo de resposta menor que 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": {{ClienteId}},\n    \"nome\": \"Gustavo\",\n    \"sobrenome\": \"Girardon\",\n    \"dataNascimento\": \"1992-01-01T00:00:00.000+0000\",\n    \"telefone\": 12121212,\n    \"cpf\": 19878768712,\n    \"sexo\": \"masculino\",\n    \"dataRegistro\": \"11/02/2019\",\n    \"endereco\": \"rua rua rua\",\n    \"numero\": \"12223\",\n    \"bairro\": \"bairro2\",\n    \"cep\": 97625433,\n    \"complemento\": \"Frente sa Unipampa\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/clientes/atualizarcliente",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes",
+								"atualizarcliente"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "BuscarClientePorID",
 					"event": [
@@ -16,8 +142,18 @@
 							"script": {
 								"id": "3ee9be14-f62a-47d3-88f5-4249ed1023ff",
 								"exec": [
-									"pm.test(\"Body is correct\", function () {",
-									"    pm.response.to.have.body(\"2\");",
+									"pm.test(\"Buscar Cliente Sucesso\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+									"});",
+									"",
+									"pm.test(\"Tempo de resposta menor que 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.test(\"Cliente sexo masculino\", function () {",
+									"    jsonData.sexo === \"masculino\";",
 									"});"
 								],
 								"type": "text/javascript"
@@ -42,8 +178,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:8080/clientes/buscar/2",
-							"protocol": "http",
+							"raw": "localhost:8080/clientes/buscar/{{ClienteId}}",
 							"host": [
 								"localhost"
 							],
@@ -51,48 +186,7 @@
 							"path": [
 								"clientes",
 								"buscar",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "AtualizarCliente",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 5,\n    \"nome\": \"mudei aquaaaai\",\n    \"sobrenome\": \"tambem aaaqui\",\n    \"dataNascimento\": \"1992-01-01T00:00:00.000+0000\",\n    \"telefone\": 12121212,\n    \"cpf\": 19878768712,\n    \"sexo\": \"masculino\",\n    \"dataRegistro\": \"11/02/2019\",\n    \"endereco\": \"rua rua rua\",\n    \"numero\": \"12223\",\n    \"bairro\": \"bairro2\",\n    \"cep\": 97625433,\n    \"complemento\": \"Frente sa Unipampa\"\n}"
-						},
-						"url": {
-							"raw": "http://localhost:8080/clientes/atualizarcliente",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"clientes",
-								"atualizarcliente"
+								"{{ClienteId}}"
 							]
 						}
 					},
@@ -100,6 +194,24 @@
 				},
 				{
 					"name": "BuscarTodosClientes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "70e7632b-a887-4b55-8d76-7fc82bd0801b",
+								"exec": [
+									"pm.test(\"Buscar Todos Cliente\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+									"});",
+									"",
+									"pm.test(\"Tempo de resposta menor que 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -133,7 +245,190 @@
 					"response": []
 				},
 				{
-					"name": "CadastrarCliente",
+					"name": "BuscarTodosClientes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "70e7632b-a887-4b55-8d76-7fc82bd0801b",
+								"exec": [
+									"pm.test(\"Buscar Todos Cliente\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+									"});",
+									"",
+									"pm.test(\"Tempo de resposta menor que 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/clientes/listar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeletarClientePorId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "423076f3-5129-471a-8ba5-5aa0ac7a18ae",
+								"exec": [
+									"pm.test(\"Deletar Cliente\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"})",
+									"    ",
+									"   ",
+									"   ",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Usuário deletado com sucesso\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/clientes/deletar?id=11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes",
+								"deletar"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeletarClienteInexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "894fb07b-3816-483f-a701-f06935d71509",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Usuário Inexistente\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/clientes/deletar?id=88",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes",
+								"deletar"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "88"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "crud produto",
+			"item": [
+				{
+					"name": "CadastrarProduto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a83478d9-bad1-419b-8ecb-a036e069607b",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -156,25 +451,44 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"nome\": \"Joao Furduncio\",\n\t\"sobrenome\": \"Malaquias\",\n\t\"dataNascimento\": \"1992-01-01\",\n\t\"telefone\": \"34225555\",\n\t\"cpf\": \"15658499487\",\n\t\"sexo\": \"masculino\",\n\t\"endereco\": \"rua rua\",\n\t\"numero\": \"123\",\n\t\"bairro\": \"bairro2\",\n\t\"cep\": \"9765433\",\n\t\"complemento\": \"Frente a Unipampa\"\n}"
+							"raw": "{\n    \"nome\": \"Chinelo Mizzuno\",\n    \"descricao\": \"Tamanho 32\",\n    \"valor\": 90,\n    \"quantidade\": 15\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/clientes/cadastrarcliente",
-							"protocol": "http",
+							"raw": "localhost:8080/produtos/cadastrar",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"clientes",
-								"cadastrarcliente"
+								"produtos",
+								"cadastrar"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "DeletarClientePorId",
+					"name": "AtualizarProduto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "931bafe9-9005-468f-b376-1c3652be1d1d",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"IdProdutoAtualizado\", jsonData.id);",
+									"pm.globals.set(\"NomeProdutoAtualizado\", jsonData.nome);",
+									"",
+									"pm.test(\"Atualizar produto funciona\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+									"});",
+									"",
+									"pm.test[\"Resposta em menos de 200ms\"] = responseTime < 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -186,40 +500,57 @@
 								}
 							]
 						},
-						"method": "DELETE",
-						"header": [],
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n    \"id\": 5,\n    \"nome\": \"Chinelo\",\n    \"descricao\": \"Tamanho 32\",\n    \"valor\": 90,\n    \"quantidade\": 15\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/clientes/deletar?id=4",
+							"raw": "http://localhost:8080/produtos/atualizarproduto",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"clientes",
-								"deletar"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "4"
-								}
+								"produtos",
+								"atualizarproduto"
 							]
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "crud produto",
-			"item": [
+				},
 				{
 					"name": "BuscarProdutoPorId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5a5844be-3c5e-4649-b38e-4c4e8aeeaabc",
+								"exec": [
+									"pm.test(\"Buscar produto por id funciona\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.test(\"Produto certo\", function () {",
+									"    jsonData.produto === \"Chinelo Mizzuno\";",
+									"});",
+									"",
+									"pm.test[\"Resposta em menos de 200ms\"] = responseTime < 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -254,129 +585,23 @@
 					"response": []
 				},
 				{
-					"name": "DeletarProduto",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://localhost:8080/produtos/deletar?id=1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"produtos",
-								"deletar"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "AtualizarProduto",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 5,\n    \"nome\": \"Chinelo\",\n    \"descricao\": \"Tamanho 32\",\n    \"valor\": 90,\n    \"quantidade\": 15\n}"
-						},
-						"url": {
-							"raw": "http://localhost:8080/produtos/atualizarProduto",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"produtos",
-								"atualizarProduto"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "CadastrarProduto",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Chinelo Mizzuno\",\n    \"descricao\": \"Tamanho 32\",\n    \"valor\": 90,\n    \"quantidade\": 15\n}"
-						},
-						"url": {
-							"raw": "http://localhost:8080/produtos/cadastrar",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"produtos",
-								"cadastrar"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "BuscarTodosOsProdutos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b22cec8a-d1b3-44e0-ba1c-b1d3dc0c0658",
+								"exec": [
+									"pm.test(\"Buscar todos os produtos funciona\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+									"});",
+									"",
+									"pm.test[\"Resposta em menos de 200ms\"] = responseTime < 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -408,6 +633,63 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "DeletarProduto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "25035fdd-df18-4f21-9b64-c7306df492f6",
+								"exec": [
+									"pm.test(\"Deletar Cliente\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([500]);",
+									"})",
+									"    ",
+									"   ",
+									"   "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/produtos/deletar?id=2000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"produtos",
+								"deletar"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2000"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -415,7 +697,365 @@
 			"name": "crud pedido",
 			"item": [
 				{
+					"name": "autenticacao",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "309f7653-8cd2-4be6-b75a-f71269599fc9",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"token\", jsonData.token);",
+									"console.log(jsonData.token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"123\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CadastrarPedido",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2b8960ae-3c3c-43f4-9287-c70c5de0914e",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "3a830211-32b9-46c3-a736-f89fed409681",
+								"exec": [
+									"tests[\"Tempo de resposta menor que 200ms\"] = responseTime < 200;",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"tests[\"Valor total correto\"] = response.valor_total == 90;",
+									"",
+									"let produto = pm.variables.get(\"produto\");",
+									"",
+									"let cliente = pm.variables.get(\"ClienteNovoNome\");",
+									"",
+									"tests[\"Produto correto\"] = responseBody.has(produto);",
+									"",
+									"tests[\"Cliente correto\"] = responseBody.has(cliente);",
+									"",
+									"pm.test(\"Status code is 200\", function () { ",
+									"    pm.response.to.have.status(200); ",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"cliente\": {\"id\": 1},\n    \"itensPedido\":[\n    \t{\"produto\": {\"id\": 2}, \"quantidade\": 1}]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/pedidos/cadastrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pedidos",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CadastrarPedidoSemProduto",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2b8960ae-3c3c-43f4-9287-c70c5de0914e",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "3a830211-32b9-46c3-a736-f89fed409681",
+								"exec": [
+									"pm.test(\"Status code is 500\", function () { ",
+									"    pm.response.to.have.status(500); ",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"cliente\": {\"id\": 1}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/pedidos/cadastrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pedidos",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CadastrarPedidoProdutoNãoExistente",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2b8960ae-3c3c-43f4-9287-c70c5de0914e",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "3a830211-32b9-46c3-a736-f89fed409681",
+								"exec": [
+									"tests[\"Tempo de resposta menor que 200ms\"] = responseTime < 200;",
+									"",
+									"pm.test(\"Status code is 200\", function () { ",
+									"    pm.response.to.have.status(200); ",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"cliente\": {\"id\": 1},\n    \"itensPedido\":[\n    \t{\"produto\": {\"id\": 1}, \"quantidade\": 2},\n    \t{\"produto\": {\"id\": 797}, \"quantidade\": 2}]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/pedidos/cadastrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pedidos",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CadastrarPedidoProdutoSemQuantidade",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2b8960ae-3c3c-43f4-9287-c70c5de0914e",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "3a830211-32b9-46c3-a736-f89fed409681",
+								"exec": [
+									"tests[\"Tempo de resposta menor que 200ms\"] = responseTime < 200;",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"tests[\"Não persiste no banco\"] = response.id === null;",
+									"",
+									"pm.test(\"Status code is 200\", function () { ",
+									"    pm.response.to.have.status(200); ",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"cliente\": {\"id\": 1},\n    \"itensPedido\":[\n    \t{\"produto\": {\"id\": 1}, \"quantidade\": 100}]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/pedidos/cadastrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pedidos",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "CancelarPedido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d039f6dd-3a46-4e04-bf31-8c5cb53b0baa",
+								"exec": [
+									"tests[\"Tempo de resposta menor que 200ms\"] = responseTime < 200;",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"tests[\"Status alterado\"] = response.status == 1;",
+									"",
+									"pm.test(\"Status code is 200\", function () { ",
+									"    pm.response.to.have.status(200); ",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -438,10 +1078,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"status\": \"hufisdhas\"\n}"
+							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:8080/pedidos/cancelarPedido/9",
+							"raw": "http://localhost:8080/pedidos/cancelarPedido/4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -450,7 +1090,132 @@
 							"path": [
 								"pedidos",
 								"cancelarPedido",
-								"9"
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CancelarPedidoJáCancelado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d039f6dd-3a46-4e04-bf31-8c5cb53b0baa",
+								"exec": [
+									"tests[\"Tempo de resposta menor que 200ms\"] = responseTime < 200;",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"tests[\"Status alterado\"] = response.status == 1;",
+									"",
+									"pm.test(\"Status code is 200\", function () { ",
+									"    pm.response.to.have.status(200); ",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/pedidos/cancelarPedido/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pedidos",
+								"cancelarPedido",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CancelarPedidoInexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d039f6dd-3a46-4e04-bf31-8c5cb53b0baa",
+								"exec": [
+									"tests[\"Tempo de resposta menor que 200ms\"] = responseTime < 200;",
+									"",
+									"pm.test(\"Status code is 200\", function () { ",
+									"    pm.response.to.have.status(200); ",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/pedidos/cancelarPedido/60",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pedidos",
+								"cancelarPedido",
+								"60"
 							]
 						}
 					},
@@ -458,6 +1223,36 @@
 				},
 				{
 					"name": "BuscarPedidoPorId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fe9e2ff0-f681-4bcd-ad3a-c146bb70160e",
+								"exec": [
+									"tests[\"Tempo de resposta menor que 200ms\"] = responseTime < 200;",
+									"",
+									"let produto = pm.variables.get(\"produto\");",
+									"",
+									"let cliente = pm.variables.get(\"cliente\");",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"tests[\"Pedido correto\"] = response.id == 1;",
+									"",
+									"tests[\"Produto correto\"] = responseBody.has(produto);",
+									"",
+									"tests[\"Cliente correto\"] = responseBody.has(cliente);",
+									"",
+									"pm.test(\"Status code is 200\", function () { ",
+									"    pm.response.to.have.status(200); ",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -492,27 +1287,23 @@
 					"response": []
 				},
 				{
-					"name": "CadastrarPedido",
+					"name": "BuscarPedidoPorIdNãoExistente",
 					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "2b8960ae-3c3c-43f4-9287-c70c5de0914e",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
 						{
 							"listen": "test",
 							"script": {
-								"id": "3a830211-32b9-46c3-a736-f89fed409681",
+								"id": "fe9e2ff0-f681-4bcd-ad3a-c146bb70160e",
 								"exec": [
+									"tests[\"Tempo de resposta menor que 200ms\"] = responseTime < 200;",
+									"",
+									"",
+									"",
 									"pm.test(\"Status code is 200\", function () { ",
 									"    pm.response.to.have.status(200); ",
 									"    ",
-									"});"
+									"});",
+									"",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -529,21 +1320,14 @@
 								}
 							]
 						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
+						"method": "GET",
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"cliente\": {\"id\": 2},\n    \"itensPedido\":[\n    \t{\"produto\": {\"id\": 3}, \"quantidade\": 6},\n    \t{\"produto\": {\"id\": 2}, \"quantidade\": 2}]\n}"
+							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:8080/pedidos/cadastrar",
+							"raw": "http://localhost:8080/pedidos/buscar/60",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -551,11 +1335,34 @@
 							"port": "8080",
 							"path": [
 								"pedidos",
-								"cadastrar"
+								"buscar",
+								"60"
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "86d0fe87-e415-4cc4-b90e-6fbaea401fdb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7083a39e-9214-47a8-ad4c-e8c59ec6834f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -631,7 +1438,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTA0OTgwNzgsImV4cCI6MTU1MDUxNjA3OH0.VAlm3sXxq46qUi5F3YKTp04msUkZ7B9GFzVm6RP1_L4",
+											"value": "{{token}}",
 											"type": "string"
 										}
 									]
@@ -721,7 +1528,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTA1MDA1MTQsImV4cCI6MTU1MDUxODUxNH0.JPdKNHpns4LeOa3HY2v97SjUOIVmWMhNAKuMC_SaszA",
+											"value": "{{token}}",
 											"type": "string"
 										}
 									]
@@ -877,7 +1684,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "http://localhost:8080/relatorio/saida/2000-01-01/2020-01-01",
+									"raw": "http://localhost:8080/relatorio/saida/2000-01-01/2002-01-01",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -887,7 +1694,7 @@
 										"relatorio",
 										"saida",
 										"2000-01-01",
-										"2020-01-01"
+										"2002-01-01"
 									]
 								}
 							},
@@ -921,7 +1728,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTA0OTkwOTYsImV4cCI6MTU1MDUxNzA5Nn0.EmcM_gJs1LGzf7YxpdL0U-_ywPj5LzZeAS14YzhHw3E",
+											"value": "{{token}}",
 											"type": "string"
 										}
 									]
@@ -983,7 +1790,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE1NTA0OTkwOTYsImV4cCI6MTU1MDUxNzA5Nn0.EmcM_gJs1LGzf7YxpdL0U-_ywPj5LzZeAS14YzhHw3E",
+											"value": "{{token}}",
 											"type": "string"
 										}
 									]
@@ -1053,7 +1860,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "http://localhost:8080/pedidos/relatorio/2000-01-01/2020-01-01",
+									"raw": "http://localhost:8080/pedidos/relatorio/2000-01-01/2001-01-01",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1063,7 +1870,7 @@
 										"pedidos",
 										"relatorio",
 										"2000-01-01",
-										"2020-01-01"
+										"2001-01-01"
 									]
 								}
 							},
@@ -1242,10 +2049,11 @@
 					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"123\"\n}"
 				},
 				"url": {
-					"raw": "{{url}}/login",
+					"raw": "localhost:8080/login",
 					"host": [
-						"{{url}}"
+						"localhost"
 					],
+					"port": "8080",
 					"path": [
 						"login"
 					]
