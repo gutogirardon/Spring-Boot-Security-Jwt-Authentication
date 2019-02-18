@@ -28,7 +28,7 @@ public class EstoqueResource {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("/entrada/{dataInicio}/{dataFinal}")
 	@ResponseBody
-	public List<Produto> relatorioEntrada(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
+	public List<Estoque> relatorioEntrada(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
 		return estoqueService.relatorioDeEntrada(dataInicio, dataFinal);
 
 	}
@@ -36,7 +36,7 @@ public class EstoqueResource {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("/saida/{dataInicio}/{dataFinal}")
 	@ResponseBody
-	public List<Produto> relatorioSaida(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
+	public List<Estoque> relatorioSaida(@PathVariable String dataInicio, @PathVariable String dataFinal) throws ParseException {
 		return estoqueService.relatorioDeSaida(dataInicio, dataFinal);
 	}
 

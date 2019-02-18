@@ -23,7 +23,7 @@ public class EstoqueService {
         this.estoqueRepository = estoqueRepository;
     }
 
-    public List<Produto> relatorioDeEntrada(String dataInicio, String dataFinal) throws ParseException {
+    public List<Estoque> relatorioDeEntrada(String dataInicio, String dataFinal) throws ParseException {
         Date dataI = null;
         Date dataF = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -33,7 +33,7 @@ public class EstoqueService {
         dataI = format.parse(dataTextoAtual);
         dataF = format.parse(dataTextoAntiga);
 
-        List<Produto> relatorioEntrada = new ArrayList<>();
+        List<Estoque> relatorioEntrada = new ArrayList<>();
         List<Estoque> estoques = findAll();
 
         for(Estoque x: estoques){
@@ -44,7 +44,7 @@ public class EstoqueService {
 
             if ((escopo.compareTo(dataI) == 1 || escopo.compareTo(dataI) == 0) && (escopo.compareTo(dataF) == 0 ||
                     escopo.compareTo(dataF) == -1) && (x.getTipo() == 1)){
-                relatorioEntrada.add(x.getProdutoId());                
+                relatorioEntrada.add(x);
             }
         }
         return relatorioEntrada;
@@ -57,7 +57,7 @@ public class EstoqueService {
     }
 
 
-    public List<Produto> relatorioDeSaida(String dataInicio, String dataFinal) throws ParseException {
+    public List<Estoque> relatorioDeSaida(String dataInicio, String dataFinal) throws ParseException {
         Date dataI = null;
         Date dataF = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -67,7 +67,7 @@ public class EstoqueService {
         dataI = format.parse(dataTextoAtual);
         dataF = format.parse(dataTextoAntiga);
 
-        List<Produto> relatorioSaida = new ArrayList<>();
+        List<Estoque> relatorioSaida = new ArrayList<>();
         List<Estoque> estoques = findAll();
 
         for(Estoque x: estoques){
@@ -78,7 +78,7 @@ public class EstoqueService {
 
             if ((escopo.compareTo(dataI) == 1 || escopo.compareTo(dataI) == 0) && (escopo.compareTo(dataF) == 0 ||
                     escopo.compareTo(dataF) == -1) && (x.getTipo() == 2)){
-                relatorioSaida.add(x.getProdutoId());                
+                relatorioSaida.add(x);
             }
 
         }
