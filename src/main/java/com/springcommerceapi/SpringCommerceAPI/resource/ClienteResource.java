@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,18 +73,18 @@ public class ClienteResource {
 	// Deletar o cliente passando o id
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@RequestMapping(value = "/deletar", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String delete_user(@RequestParam(value = "id") long id) {
+	public @ResponseBody ResponseEntity<String> delete_user(@RequestParam(value = "id") long id) {
 		try{
 		if (clienteService.deletarCliente(id) == true) {
-			return "Usuário deletado com sucesso";
+			return new ResponseEntity<String>("Usuário Deletado com Sucesso", HttpStatus.OK);
 		} else {
-			return "Usuário não pode ser deletado";
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não pode ser deletado");
 		}
 		
 	
 	}catch(NullPointerException npe){
 		  
 		}
-		return "Usuário Inexistente";
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não pode ser deletado");
 	}
 }
