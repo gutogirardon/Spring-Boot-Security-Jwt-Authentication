@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.springcommerceapi.SpringCommerceAPI.model.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,7 +54,11 @@ public class ClienteResource {
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@RequestMapping(value = "/buscar/{id}", method = RequestMethod.GET)
 	public Cliente getOne(@PathVariable(value = "id") long id) {
-		return clienteRepository.findById(id);
+		if(clienteService.recuperarClienteId(id) == null){
+			throw new ProductNotFoundException("Cliente não foi encontrado!");
+		}else {
+			return clienteRepository.findById(id);
+		}
 	}
 
 	// Retornar todos os clientes

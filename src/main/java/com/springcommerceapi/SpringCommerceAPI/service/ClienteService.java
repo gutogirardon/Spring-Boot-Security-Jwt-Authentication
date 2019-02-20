@@ -44,7 +44,13 @@ public class ClienteService {
 	}
 
 	public Optional<Cliente> recuperarClienteId(Long id) {
-		return clienteRepository.findById(id);
+		Cliente cliente = clienteRepository.findById(id).orElse(null);
+		if (cliente == null){
+			return null;
+		}
+		else{
+			return clienteRepository.findById(id);
+		}
 	}
 	
 }
