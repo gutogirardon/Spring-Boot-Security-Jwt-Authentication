@@ -3,6 +3,7 @@ package com.springcommerceapi.SpringCommerceAPI.service;
 import com.springcommerceapi.SpringCommerceAPI.model.Cliente;
 import com.springcommerceapi.SpringCommerceAPI.model.ItemPedido;
 import com.springcommerceapi.SpringCommerceAPI.model.Pedido;
+import com.springcommerceapi.SpringCommerceAPI.model.ProductNotFoundException;
 import com.springcommerceapi.SpringCommerceAPI.model.Produto;
 import com.springcommerceapi.SpringCommerceAPI.repository.ClienteRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.PedidoRepository;
@@ -72,7 +73,7 @@ public class PedidoService {
 				itemPedidoService.atualizarEstoqueEntrada(pedido);
 				pedidoRepository.save(pedido);
 			} else {
-				return null;
+				throw new ProductNotFoundException("Pedido já cancelado");
 			}
 		}
 		return pedido;
@@ -123,8 +124,7 @@ public class PedidoService {
 
 	public Optional<Pedido> buscarPedido(Long idPedido) {
 		Optional<Pedido> pedido = pedidoRepository.findById(idPedido);
-		return pedido;
-		
-	}
+		return pedido;		
+	}	
 
 }
