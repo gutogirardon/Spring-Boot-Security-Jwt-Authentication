@@ -41,7 +41,7 @@ public class ProdutoResource {
 	public Optional<Produto> getOne(@PathVariable(value = "id") long id) {
 
 		if(produtoRepository.existsById(id) == false){
-			throw new ProductNotFoundException("produto solicitado não foi encontrado!");
+			throw new ProductNotFoundException("Produto solicitado não foi encontrado!");
 		}else{
 			return produtoRepository.findById(id);
 		}
