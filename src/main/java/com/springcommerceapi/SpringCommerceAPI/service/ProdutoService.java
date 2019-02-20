@@ -43,8 +43,8 @@ public class ProdutoService {
 	}
 
 	public Produto buscarProdutoId(Long id) {
-		Produto produto = iProdutoRepository.findById(id).orElse(new Produto());
-		if (produto.getId() == null) {
+		Produto produto = iProdutoRepository.findById(id).orElse(null);
+		if (produto == null) {
 			return null;
 		} else {
 			return produto;
@@ -60,8 +60,8 @@ public class ProdutoService {
 	public Produto alterarProduto(Produto produto) {
 		Produto produto1 = iProdutoRepository.findById(produto.getId()).orElse(new Produto());
 		produto.setId(produto1.getId());
-		iProdutoRepository.save(produto);
-		return null;
+
+		return iProdutoRepository.save(produto);
 
 	}
 

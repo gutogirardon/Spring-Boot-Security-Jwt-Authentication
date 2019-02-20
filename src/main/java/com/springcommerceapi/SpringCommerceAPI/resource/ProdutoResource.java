@@ -1,5 +1,6 @@
 package com.springcommerceapi.SpringCommerceAPI.resource;
 
+import com.springcommerceapi.SpringCommerceAPI.model.ProductNotFoundException;
 import com.springcommerceapi.SpringCommerceAPI.model.Produto;
 import com.springcommerceapi.SpringCommerceAPI.repository.ProdutoRepository;
 import com.springcommerceapi.SpringCommerceAPI.service.ProdutoService;
@@ -51,10 +52,11 @@ public class ProdutoResource {
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@RequestMapping(value = "/atualizarproduto", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Produto atualizarProduto (@RequestBody Produto produto){
-		produtoService.alterarProduto(produto);
-		return produto;
-
-
+		if(produtoService.buscarProdutoId(produto.getId()) == null){
+			throw new ProductNotFoundException("Não foi possível atualizar, pois o produto solicitado não foi encontrado");
+		}else {
+			return produtoService.alterarProduto(produto);
+		}
 	}
 
 	// Deletar o produto passando o id
