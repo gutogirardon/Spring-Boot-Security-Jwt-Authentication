@@ -72,7 +72,7 @@ public class PedidoService {
 				itemPedidoService.atualizarEstoqueEntrada(pedido);
 				pedidoRepository.save(pedido);
 			} else {
-				return pedido;
+				return null;
 			}
 		}
 		return pedido;

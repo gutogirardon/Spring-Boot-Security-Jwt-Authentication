@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.springcommerceapi.SpringCommerceAPI.model.Pedido;
+import com.springcommerceapi.SpringCommerceAPI.repository.PedidoRepository;
 
 import java.text.ParseException;
 import java.util.List;
@@ -45,7 +46,7 @@ public class PedidoResource {
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping(value = "/cancelarPedido/{idPedido}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Pedido cancelarPedido(@PathVariable Long idPedido) {
-        return pedidoService.alterarPedido(idPedido);
+    	return pedidoService.alterarPedido(idPedido);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN')")
@@ -67,10 +68,6 @@ public class PedidoResource {
     		else {
     			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(null);
     		}
-    
-    	
-    	
-    	
     	
     }
 }
