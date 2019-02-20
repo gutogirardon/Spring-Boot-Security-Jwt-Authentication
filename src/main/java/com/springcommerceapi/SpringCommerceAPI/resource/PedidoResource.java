@@ -59,7 +59,13 @@ public class PedidoResource {
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping(value = "/cancelarPedido/{idPedido}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Pedido cancelarPedido(@PathVariable Long idPedido) {
-    	return pedidoService.alterarPedido(idPedido);
+        Pedido pedido = pedidoService.alterarPedido(idPedido);
+
+        if (pedido == null){
+            throw new ProductNotFoundException("Pedido já foi cancelado!");
+        }else {
+            return pedido;
+        }
     }
 
     @PreAuthorize("hasAnyRole('ADMIN')")

@@ -75,16 +75,19 @@ public class PedidoService {
 
 	public Pedido alterarPedido(Long idPedido) {
 		Pedido pedido = pedidoRepository.findById(idPedido).orElse(null);
-		if (pedido != null) {
+
+		 if(pedidoRepository.existsById(idPedido) == false){
+		 	throw new ProductNotFoundException("Pedido não exite!");
+		 }
+
 			if (pedido.getStatus() == 0) {
 				pedido.setStatus(1);
 				itemPedidoService.atualizarEstoqueEntrada(pedido);
 				pedidoRepository.save(pedido);
+				return pedido;
 			} else {
-				throw new ProductNotFoundException("Pedido já cancelado");
-			}
+				return null;
 		}
-		return pedido;
 	}
 
 	public List<Pedido> relatorio(String dataInicio, String dataFinal) throws ParseException {
