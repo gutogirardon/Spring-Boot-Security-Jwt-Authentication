@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springcommerceapi.SpringCommerceAPI.model.Cliente;
-import com.springcommerceapi.SpringCommerceAPI.model.Produto;
-import com.springcommerceapi.SpringCommerceAPI.model.Usuario;
 import com.springcommerceapi.SpringCommerceAPI.repository.ClienteRepository;
 
 @Service
@@ -45,8 +43,8 @@ public class ClienteService {
 		
 	}
 
-	public Cliente recuperarClienteId(Long id) {
-		return clienteRepository.findById(id).orElse(new Cliente());
+	public Optional<Cliente> recuperarClienteId(Long id) {
+		return clienteRepository.findById(id);
 	}
 	
 }

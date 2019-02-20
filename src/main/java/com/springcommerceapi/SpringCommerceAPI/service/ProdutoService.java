@@ -1,7 +1,6 @@
 package com.springcommerceapi.SpringCommerceAPI.service;
 
 import com.springcommerceapi.SpringCommerceAPI.model.Estoque;
-import com.springcommerceapi.SpringCommerceAPI.model.ItemPedido;
 import com.springcommerceapi.SpringCommerceAPI.model.Produto;
 import com.springcommerceapi.SpringCommerceAPI.repository.EstoqueRepository;
 import com.springcommerceapi.SpringCommerceAPI.repository.ProdutoRepository;
@@ -46,11 +45,12 @@ public class ProdutoService {
 	public Produto buscarProdutoId(Long id) {
 		Produto produto = iProdutoRepository.findById(id).orElse(new Produto());
 		if (produto.getId() == null) {
-			return produto;
+			return null;
 		} else {
 			return produto;
 		}
 	}
+
 
 	public Produto buscarProdutoNome(@RequestParam(value = "nome") String nome) {
 		Produto produto = iProdutoRepository.findByNome(nome);

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PedidoService {
@@ -120,9 +121,10 @@ public class PedidoService {
 		return pedidosPorCliente;
 	}
 
-	public Pedido buscarPedido(Long idPedido) {
-		Pedido pedido = pedidoRepository.findById(idPedido).orElse(null);
+	public Optional<Pedido> buscarPedido(Long idPedido) {
+		Optional<Pedido> pedido = pedidoRepository.findById(idPedido);
 		return pedido;
+		
 	}
 
 }

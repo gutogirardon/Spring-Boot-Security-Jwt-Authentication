@@ -4,13 +4,16 @@ import com.springcommerceapi.SpringCommerceAPI.model.ItemPedido;
 import com.springcommerceapi.SpringCommerceAPI.service.ItemPedidoService;
 import com.springcommerceapi.SpringCommerceAPI.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.springcommerceapi.SpringCommerceAPI.model.Pedido;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -54,8 +57,20 @@ public class PedidoResource {
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping(value = "/buscar/{idPedido}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Pedido buscarPedido(@PathVariable Long idPedido) {
-        return pedidoService.buscarPedido(idPedido);
+    
+    public @ResponseBody ResponseEntity<Optional<Pedido>> buscarPedido(@PathVariable Long idPedido) {
+       
+    	
+    		if( pedidoService.buscarPedido(idPedido) != null) {
+    			return ResponseEntity.status(HttpStatus.OK).body(pedidoService.buscarPedido(idPedido));
+    	       }
+    		else {
+    			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(null);
+    		}
+    
+    	
+    	
+    	
+    	
     }
 }

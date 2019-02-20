@@ -80,8 +80,6 @@ public class ClienteResource {
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não pode ser deletado");
 		}
-		
-	
 	}catch(NullPointerException npe){
 		  
 		}
