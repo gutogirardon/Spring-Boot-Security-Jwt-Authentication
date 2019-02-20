@@ -63,6 +63,7 @@ public class PedidoService {
 				itemPedidoService.atualizarEstoqueSaida(itemPedido, produto);
 			} else {
 				it.remove();
+				throw new ProductNotFoundException("Produto não disponível em estoque");
 			}
 		}
 		if (!pedido.getItensPedido().isEmpty()) {
