@@ -1,8 +1,11 @@
 package com.springcommerceapi.SpringCommerceAPI.resource;
 
 import com.springcommerceapi.SpringCommerceAPI.model.ItemPedido;
+import com.springcommerceapi.SpringCommerceAPI.model.ProductNotFoundException;
 import com.springcommerceapi.SpringCommerceAPI.service.ItemPedidoService;
 import com.springcommerceapi.SpringCommerceAPI.service.PedidoService;
+import com.springcommerceapi.SpringCommerceAPI.service.ProdutoService;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,12 +30,22 @@ public class PedidoResource {
     @Autowired
     PedidoService pedidoService;
 
+    @Autowired
+    ProdutoService produtoService;
+
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PostMapping(value =  "/cadastrar")
     public Pedido salvarPedido(@RequestBody Pedido pedido) {
         for (ItemPedido i : pedido.getItensPedido()) {
             i.setPedido(pedido);
         }
+        for (ItemPedido i : pedido.getItensPedido()){
+            if (produtoService.buscarProdutoId(i.getProduto().getId()) == null){
+
+                throw new ProductNotFoundException("Produto com ID: " + i.getProduto().getId().toString() + " não foi encontrado");
+            }
+        }
+
         return pedidoService.salvarPedido(pedido);
     }
 
