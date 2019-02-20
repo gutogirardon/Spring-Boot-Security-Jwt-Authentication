@@ -77,7 +77,7 @@ public class PedidoService {
 		Pedido pedido = pedidoRepository.findById(idPedido).orElse(null);
 
 		 if(pedidoRepository.existsById(idPedido) == false){
-		 	throw new ProductNotFoundException("Pedido não exite!");
+		 	throw new ProductNotFoundException("Pedido não foi encontrado!");
 		 }
 
 			if (pedido.getStatus() == 0) {
