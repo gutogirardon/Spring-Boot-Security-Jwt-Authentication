@@ -42,12 +42,18 @@ public class PedidoService {
 	public Pedido salvarPedido(Pedido pedido) {
 		pedido.setData_pedido(new Date());
 		Cliente cliente = clienteRepository.findById(pedido.getCliente().getId()).orElse(null);
+		
+		if (clienteRepository.existsById(pedido.getCliente().getId()) == false) {
+			throw new ProductNotFoundException("Cliente não encontrado");
+		} else {
+		
 		pedido.setCliente(cliente);
 		Iterator<ItemPedido> it = pedido.getItensPedido().iterator();
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			ItemPedido itemPedido = it.next();
 			Produto produto = produtoRepository.findById(itemPedido.getProduto().getId()).orElse(null);
-			if (itemPedidoService.verificarDisponibilidade(itemPedido.getProduto().getId(), itemPedido.getQuantidade()) == true) {
+			if (itemPedidoService.verificarDisponibilidade(itemPedido.getProduto().getId(),
+					itemPedido.getQuantidade()) == true) {
 				produto.setQuantidade(produto.getQuantidade() - itemPedido.getQuantidade());
 				itemPedido.setPreco_unitario(produto.getValor());
 				itemPedido.setPreco_total(produto.getValor() * itemPedido.getQuantidade());
@@ -59,16 +65,17 @@ public class PedidoService {
 				it.remove();
 			}
 		}
-		if(!pedido.getItensPedido().isEmpty()) {
+		if (!pedido.getItensPedido().isEmpty()) {
 			pedidoRepository.save(pedido);
 		}
 		return pedido;
 	}
+}
 
 	public Pedido alterarPedido(Long idPedido) {
 		Pedido pedido = pedidoRepository.findById(idPedido).orElse(null);
-		if(pedido != null) {
-			if(pedido.getStatus() == 0) {
+		if (pedido != null) {
+			if (pedido.getStatus() == 0) {
 				pedido.setStatus(1);
 				itemPedidoService.atualizarEstoqueEntrada(pedido);
 				pedidoRepository.save(pedido);
@@ -92,14 +99,14 @@ public class PedidoService {
 		List<Pedido> relatorioPedidos = new ArrayList<>();
 		List<Pedido> pedidos = pedidoRepository.findAll();
 
-		for(Pedido x: pedidos){
+		for (Pedido x : pedidos) {
 			Date escopo = null;
 
 			String umaDta = new String(x.getData_pedido().toString());
 			escopo = format.parse(umaDta);
 
-			if ((escopo.compareTo(dataI) == 1 || escopo.compareTo(dataI) == 0) && (escopo.compareTo(dataF) == 0 ||
-					escopo.compareTo(dataF) == -1)){
+			if ((escopo.compareTo(dataI) == 1 || escopo.compareTo(dataI) == 0)
+					&& (escopo.compareTo(dataF) == 0 || escopo.compareTo(dataF) == -1)) {
 				relatorioPedidos.add(x);
 			}
 
@@ -107,14 +114,14 @@ public class PedidoService {
 		return relatorioPedidos;
 	}
 
-	public List<Pedido> relatorioPedidoCliente(Long idCliente){
+	public List<Pedido> relatorioPedidoCliente(Long idCliente) {
 
 		List<Pedido> pedidos = pedidoRepository.findAll();
 
 		List<Pedido> pedidosPorCliente = new ArrayList<>();
 
 		for (Pedido pedido : pedidos) {
-			if (pedido.getCliente().getId() == idCliente){
+			if (pedido.getCliente().getId() == idCliente) {
 				pedidosPorCliente.add(pedido);
 			}
 		}
@@ -124,7 +131,7 @@ public class PedidoService {
 
 	public Optional<Pedido> buscarPedido(Long idPedido) {
 		Optional<Pedido> pedido = pedidoRepository.findById(idPedido);
-		return pedido;		
-	}	
+		return pedido;
+	}
 
 }
