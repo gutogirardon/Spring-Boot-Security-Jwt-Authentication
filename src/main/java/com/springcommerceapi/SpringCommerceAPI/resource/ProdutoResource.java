@@ -39,7 +39,12 @@ public class ProdutoResource {
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@RequestMapping(value = "/buscar/{id}", method = RequestMethod.GET)
 	public Optional<Produto> getOne(@PathVariable(value = "id") long id) {
-		return produtoRepository.findById(id);
+
+		if(produtoRepository.existsById(id) == false){
+			throw new ProductNotFoundException("produto solicitado não foi encontrado!");
+		}else{
+			return produtoRepository.findById(id);
+		}
 	}
 
 	// Retornar todos os produtos cadastrados
